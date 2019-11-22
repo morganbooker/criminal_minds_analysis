@@ -49,8 +49,8 @@ cm_scripts <- cm_scripts %>%
 # Change episode column format to match script tibble
 # Put episode column first
 
-cm_data <- read_csv("cm_data.csv", col_type = cols(
-  episode = col_character(),
+cm_data <- read_csv("./cm_analysis/cm_data.csv", col_type = cols(
+  ep = col_character(),
   caught = col_character(),
   alive = col_character(),
   personal_story = col_character(),
@@ -119,8 +119,8 @@ cm_season <- cm_data %>%
 
 # Write object out to use in shiny app later
 
-write_rds(cm_words, "cm_analysis/cm_words.rds")
+write_rds(cm_words, "./cm_analysis/cm_words.rds")
 
-write_rds(cm_season, "cm_analysis/cm_season.rds")
+write_rds(cm_season, "./cm_analysis/cm_season.rds")
 
 

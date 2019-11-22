@@ -1,26 +1,34 @@
 library(shiny)
 library(knitr)
+library(fs)
+library(tm)
+library(rvest)
+library(janitor)
+library(memoise)
+library(tidytext)
 library(markdown)
+library(wordcloud)
+library(tidyverse)
+library(RColorBrewer)
 
-
-rmdfiles <- c("about.Rmd")
+rmdfiles <- c("./about.Rmd")
 sapply(rmdfiles, knit, quiet = T)
 
 # Read in data from script
 
-cm_words <- read_rds("cm_words.rds")
+cm_words <- read_rds("./cm_words.rds")
 
-cm_name <- read_rds("cm_name.rds")
+cm_name <- read_rds("./cm_name.rds")
 
-cm_name_season <- read_rds("cm_name_season.rds")
+cm_name_season <- read_rds("./cm_name_season.rds")
 
-cm_buzz <- read_rds("cm_buzz.rds")
+cm_buzz <- read_rds("./cm_buzz.rds")
 
-cm_buzz_season <- read_rds("cm_buzz_season.rds")
+cm_buzz_season <- read_rds("./cm_buzz_season.rds")
 
-cm_caught <- read_rds("cm_caught.rds")
+cm_caught <- read_rds("./cm_caught.rds")
 
-cm_caught_season <- read_rds("cm_caught_season.rds")
+cm_caught_season <- read_rds("./cm_caught_season.rds")
 
 # Create column for choices bar
 

@@ -13,7 +13,7 @@ library(RColorBrewer)
 
 # read in objects
 
-read_rds("cm_analysis/cm_season.rds")
+read_rds("./cm_analysis/cm_season.rds")
 
 # have character names/nicknames all count as one word
 
@@ -121,17 +121,17 @@ cm_caught_season <- cm_season %>%
 
 # Write out plots
 
-write_rds(cm_name, "cm_analysis/cm_name.rds")
+write_rds(cm_name, "./cm_analysis/cm_name.rds")
 
-write_rds(cm_name_season, "cm_analysis/cm_name_season.rds")
+write_rds(cm_name_season, "./cm_analysis/cm_name_season.rds")
 
-write_rds(cm_buzz, "cm_analysis/cm_buzz.rds")
+write_rds(cm_buzz, "./cm_analysis/cm_buzz.rds")
 
-write_rds(cm_buzz_season, "cm_analysis/cm_buzz_season.rds")
+write_rds(cm_buzz_season, "./cm_analysis/cm_buzz_season.rds")
 
-write_rds(cm_caught, "cm_analysis/cm_caught.rds")
+write_rds(cm_caught, "./cm_analysis/cm_caught.rds")
 
-write_rds(cm_caught_season, "cm_analysis/cm_caught_season.rds")
+write_rds(cm_caught_season, "./cm_analysis/cm_caught_season.rds")
 
 
 

@@ -1,0 +1,22 @@
+---
+title: "Milestone 2"
+author: "Morgan Booker"
+date: "9/20/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Project 1: Tate Green's Game of Thrones Analysis
+Tate's concept of looking into the scripts for this show and doing an analysis of popular words and the sentiments behind them is a very cool concept that I really liked because I personally am very interested in entertainment related data. However, while I really like the concept behind the project, I think it would have been nice if she expanded a bit more on what exactly she was doing and why in her about section (i.e. why is she looking into word sentiment) to provide clearer context to the project. The visuals/graphics she choose to include in her project are nice, easy to follow, and well formatted. I really like playing around with the word cloud, and I think the graphs are easy to follow and complement each other well. While this is not necessarily a "con", I think since she did a word cloud that captured information for all seasons of the show, there was probably potential to do more with the graphs along that vein. Perhaps, she could have shown season-by-season the top 10 positive and negative words and looked at how that changed as well as what the top 20 words said per season were. Furthermore, on the top 10 positive and negative words, it might be a nice addition to add how these were classified as positive versus negative (i.e. what standard she used to determine this), especially since in the "Things to note section" she mentions that "the function labeled [stark] as negative", so explaning that function on her website could be a nice addition. Looking at her code, the app.R document is really well-commented. I think she did a really good job of explaining not only what she did but why she chose to do it in that specific way, which is helpful for following along and understanding the project better. However, not all the code documents are equally well commented, so some documents are not as easy to follow as others.
+
+## Project 2: Tanner Gildea's 2020 Democratic Candidates' Tweets
+Tanner's project has a very well organized final website that is not only well formatted and easy to navigate, but also has a nice color scheme/theme as well. I really liked that he added a lot of context to not only the project concept but also to the different parts of the project because I understood why this project was important as well as how he approached the summary statistics and sentiment analysis portions of the project. Alll of his graphics are really well labeled, well colored, and easy to follow. I especially like how his project is really interactive. For example, inthe sentiment analysis tab, you can hover over the graph and it gives you more information, which is a really cool additional feature. On the Summary of Twitter Activity tab, I feel that the "# of Bins" slider could have probably been labeled something else or explained further for those who do not really know or understand the concept of bins. He alludes to the fact candidates do not tweet with the same frequency below the slider, but I think that directly tying in the phrase "bins" would have been more helpful in explaining what playing with the slider does to the data. His code documentation is really good and well commented which makes it easy to follow what he did and why he choose to do it in that way. On that note, though, again not necessarily a "con", I think it might have been nice to add a methodology section to his final website since it looks like the data collection and organization of this project was quite extensive, so it might have been nice to add a little note on how he did that.
+
+
+
+
+
+

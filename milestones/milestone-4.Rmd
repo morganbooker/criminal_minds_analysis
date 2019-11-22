@@ -1,0 +1,240 @@
+---
+title: "Milestone #4: Playing with Visualizations"
+author: "Morgan Booker"
+date: "10/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load in libraries, include=FALSE}
+library(tidyverse)
+library(janitor)
+library(tidytext)
+```
+
+```{r 1x01, echo=FALSE}
+
+# Read in script
+
+cm_1x01 <- paste(readLines("scripts/cm_1x01.txt"))
+
+# Create dataframe where each row is a line
+
+cm_1x01 <- data.frame(cm_1x01, stringsAsFactors = FALSE)
+
+# Found via google that you can split up each row into one character using the
+# unnest_tokens() function, so experimenting with this to see if this is how I
+# want to handle the scripts
+
+cm_1x01_words <- cm_1x01 %>% 
+  unnest_tokens(word, cm_1x01)
+
+# I filtered out important words that are said in the show (i.e. character
+# names, crime related terms, case-specific terms, etc.) based things I've heard
+# them say a lot when I watch the show, but I think it may be worthwhile to
+# instead just look at the top words said overall instead of picking myself
+# (because that may be too biased?). Additionally, there is definitely a cleaner
+# way of presenting the list of buzzwords I want to use if I choose to make the
+# buzzwords list myself, so a next step should be finding a better way to do
+# that (maybe make a list to feed into something, etc.)
+
+cm_1x01_buzzwords <- cm_1x01_words %>% 
+  filter(word %in% 
+           c("unsub", "suspect", "murder", "criminal", "blood", "spencer", 
+             "reid", "derek", "morgan", "aaron", "hotch", "hotchner", "jason", 
+             "gideon", "elle", "greenaway", "jennifer", "jj", "jareau", "penelope", 
+             "garcia", "emily", "prentiss", "david", "rossi", "baby girl", "kill", 
+             "serial", "killer", "killers", "homicide", "psychopath", "sociopath", 
+             "signature", "souvenir", "trophy", "stalker", "staged", "victim", 
+             "profile", "wheels up", "sadism", "sadist"))
+  
+ggplot(cm_1x01_buzzwords, aes(x = fct_infreq(word), fill = word)) +
+  geom_bar(show.legend = FALSE) +
+  coord_flip() +
+  labs(title = "Frequency of Buzzwords Spoken in Criminal Minds 1x01: Extreme Aggressor ",
+       y = "Number of Times Spoken in Episode",
+       x = "Buzzword")
+
+# Current visualization just focuses on quantifying buzzwords because I'm still
+# figuring out how I will quantify criminals being caught
+
+# Other things I am consider doing include: potentially grouping
+# related-components together so that they fall into the same bar (i.e. one of
+# the characters is named Spencer Reid, so maybe instead of having two separate
+# bars for that, I should have all the occurences of reid and spencer in the
+# same bar; maybe instead of having different bars for kill, killer, killers,
+# have one bar that incorporates all of those unless I think they really have
+# different connotations, etc.). Furthermore, maybe I might group the plots by
+# category (i.e. have one for character names, one for criminal terms, etc.)
+# instead of having all this info on one plot. Additionally, do I want
+# inidivudal plots per episode? Or should I do it by season? Or by the entire
+# show as a whole?
+
+# Furthermore, I made all the plots separately, but now that we've learned more
+# about using functions, I should definitely take advantage to make future
+# visualizations
+
+```
+
+```{r 2x01, echo=FALSE, warning=FALSE}
+
+# Read in script
+
+cm_2x01 <- paste(readLines("scripts/cm_2x01.txt"))
+
+# Create dataframe where each row is a line
+
+cm_2x01 <- data.frame(cm_2x01, stringsAsFactors = FALSE)
+
+# Found via google that you can split up each row into one character using the
+# unnest_tokens() function, so experimenting with this to see if this is how I
+# want to handle the scripts
+
+cm_2x01_words <- cm_2x01 %>% 
+  unnest_tokens(word, cm_2x01)
+
+# Filtering out to find how many times some important words in the show are
+# said. Unsub (unknown subject) is how they usually refer to the criminal and
+# Reid and Morgan are two of the main characters.
+
+cm_2x01_buzzwords <- cm_2x01_words %>% 
+  filter(word %in% 
+           c("unsub", "suspect", "murder", "criminal", "blood", "spencer", 
+             "reid", "derek", "morgan", "aaron", "hotch", "hotchner", "jason", 
+             "gideon", "elle", "greenaway", "jennifer", "jj", "jareau", "penelope", 
+             "garcia", "emily", "prentiss", "david", "rossi", "baby girl", "kill", 
+             "serial", "killer", "killers", "homicide", "psychopath", "sociopath", 
+             "signature", "souvenir", "trophy", "stalker", "staged", "victim", 
+             "profile", "wheels up", "sadism", "sadist"))
+  
+ggplot(cm_2x01_buzzwords, aes(x = fct_infreq(word), fill = word)) +
+  geom_bar(show.legend = FALSE) +
+  coord_flip() +
+  labs(title = "Frequency of Buzzwords Spoken in Criminal Minds 2x01: The Fisher King, Part 2",
+       y = "Number of Times Spoken in Episode",
+       x = "Buzzword")
+
+```
+
+```{r 3x01, echo=FALSE, warning=FALSE}
+
+# Read in script
+
+cm_3x01 <- paste(readLines("scripts/cm_3x01.txt"))
+
+# Create dataframe where each row is a line
+
+cm_3x01 <- data.frame(cm_3x01, stringsAsFactors = FALSE)
+
+# Found via google that you can split up each row into one character using the
+# unnest_tokens() function, so experimenting with this to see if this is how I
+# want to handle the scripts
+
+cm_3x01_words <- cm_3x01 %>% 
+  unnest_tokens(word, cm_3x01)
+
+# Filtering out to find how many times some important words in the show are
+# said. Unsub (unknown subject) is how they usually refer to the criminal and
+# Reid and Morgan are two of the main characters.
+
+cm_3x01_buzzwords <- cm_3x01_words %>% 
+  filter(word %in% 
+           c("unsub", "suspect", "murder", "criminal", "blood", "spencer", 
+             "reid", "derek", "morgan", "aaron", "hotch", "hotchner", "jason", 
+             "gideon", "elle", "greenaway", "jennifer", "jj", "jareau", "penelope", 
+             "garcia", "emily", "prentiss", "david", "rossi", "baby girl", "kill", 
+             "serial", "killer", "killers", "homicide", "psychopath", "sociopath", 
+             "signature", "souvenir", "trophy", "stalker", "staged", "victim", 
+             "profile", "wheels up", "sadism", "sadist"))
+  
+ggplot(cm_3x01_buzzwords, aes(x = fct_infreq(word), fill = word)) +
+  geom_bar(show.legend = FALSE) +
+  coord_flip() +
+  labs(title = "Frequency of Buzzwords Spoken in Criminal Minds 3x01: Doubt",
+       y = "Number of Times Spoken in Episode",
+       x = "Buzzword")
+
+```
+
+```{r 4x01, echo=FALSE, warning=FALSE}
+
+# Read in script
+
+cm_4x01 <- paste(readLines("scripts/cm_4x01.txt"))
+
+# Create dataframe where each row is a line
+
+cm_4x01 <- data.frame(cm_4x01, stringsAsFactors = FALSE)
+
+# Found via google that you can split up each row into one character using the
+# unnest_tokens() function, so experimenting with this to see if this is how I
+# want to handle the scripts
+
+cm_4x01_words <- cm_4x01 %>% 
+  unnest_tokens(word, cm_4x01)
+
+# Filtering out to find how many times some important words in the show are
+# said. Unsub (unknown subject) is how they usually refer to the criminal and
+# Reid and Morgan are two of the main characters.
+
+cm_4x01_buzzwords <- cm_4x01_words %>% 
+  filter(word %in% 
+           c("unsub", "suspect", "murder", "criminal", "blood", "spencer", 
+             "reid", "derek", "morgan", "aaron", "hotch", "hotchner", "jason", 
+             "gideon", "elle", "greenaway", "jennifer", "jj", "jareau", "penelope", 
+             "garcia", "emily", "prentiss", "david", "rossi", "baby girl", "kill", 
+             "serial", "killer", "killers", "homicide", "psychopath", "sociopath", 
+             "signature", "souvenir", "trophy", "stalker", "staged", "victim", 
+             "profile", "wheels up", "sadism", "sadist"))
+  
+ggplot(cm_4x01_buzzwords, aes(x = fct_infreq(word), fill = word)) +
+  geom_bar(show.legend = FALSE) +
+  coord_flip() +
+  labs(title = "Frequency of Buzzwords Spoken in Criminal Minds 4x01: Mayhem",
+       y = "Number of Times Spoken in Episode",
+       x = "Buzzword")
+
+```
+
+```{r 5x01, echo=FALSE, warning=FALSE}
+
+# Read in script
+
+cm_5x01 <- paste(readLines("scripts/cm_5x01.txt"))
+
+# Create dataframe where each row is a line
+
+cm_5x01 <- data.frame(cm_5x01, stringsAsFactors = FALSE)
+
+# Found via google that you can split up each row into one character using the
+# unnest_tokens() function, so experimenting with this to see if this is how I
+# want to handle the scripts
+
+cm_5x01_words <- cm_5x01 %>% 
+  unnest_tokens(word, cm_5x01)
+
+# Filtering out to find how many times some important words in the show are
+# said. Unsub (unknown subject) is how they usually refer to the criminal and
+# Reid and Morgan are two of the main characters.
+
+cm_5x01_buzzwords <- cm_5x01_words %>% 
+  filter(word %in% 
+           c("unsub", "suspect", "murder", "criminal", "blood", "spencer", 
+             "reid", "derek", "morgan", "aaron", "hotch", "hotchner", "jason", 
+             "gideon", "elle", "greenaway", "jennifer", "jj", "jareau", "penelope", 
+             "garcia", "emily", "prentiss", "david", "rossi", "baby girl", "kill", 
+             "serial", "killer", "killers", "homicide", "psychopath", "sociopath", 
+             "signature", "souvenir", "trophy", "stalker", "staged", "victim", 
+             "profile", "wheels up", "sadism", "sadist"))
+  
+ggplot(cm_5x01_buzzwords, aes(x = fct_infreq(word), fill = word)) +
+  geom_bar(show.legend = FALSE) +
+  coord_flip() +
+  labs(title = "Frequency of Buzzwords Spoken in Criminal Minds 5x01: Nameless, Faceless",
+       y = "Number of Times Spoken in Episode",
+       x = "Buzzword")
+
+```

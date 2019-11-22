@@ -1,0 +1,12 @@
+name: milestone-6
+title: milestone-6
+username:
+account: morganbooker
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1401355
+bundleId: 2551746
+url: https://morganbooker.shinyapps.io/milestone-6/
+when: 1572451390.12448
+asMultiple: FALSE
+asStatic: FALSE

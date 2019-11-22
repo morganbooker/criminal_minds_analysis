@@ -1,0 +1,31 @@
+---
+title: "About Page Draft"
+author: "Morgan Booker"
+date: "10/17/2019"
+output: html_document
+---
+
+
+
+### The Show
+Criminal Minds is a popular procedural crime drama television series that airs on CBS and is about to debut its fifteenth and final season. The show follows a group of behavioral profilers in the FBI's Behavioral Analysis Unit (BAU) as they investigate the country's most-twisted criminal minds through criminal profiling. Criminal Minds is a hit show that has captured the American public's fascination with sensational crimes and the fourteen seasons that have aired have not disappointed in their content.
+
+### The Crimes
+Throughout the fourteen seasons, the BAU team has dealt with a wide variety of crimes and criminals including serial killers, arsonists, kidnappers, and domestic terrorists to name a few. Some stories featured on the show are based on true stories, which is possibly why this show has fascinated so many viewers for so long and has lead to multiple spin off shows. In most (but not all) episodes, the team captures the killer, either dead or alive.
+
+### The Recurring Elements
+Most episodes of the show feature some important recurring elements, this section will list a few that are relevant to this analysis.
+
+* __The Team__: The key players of the BAU team include:Jason Gideon (Seasons 1-3), David Rossi, Aaron "Hotch" Hotchner (Seasons 1-12), Derek Morgan (Seasons 1-11), Spencer Reid, Emily Prentiss, Jennifer "JJ" Jareau, and Penelope Garcia. Major recurring team members have included: Elle Greenaway (Seasons 1-2).
+* __The Capture__: Most episodes feature the capture or death of the suspect.
+* __Key Phrases__: Each episode, there are a lot of key words or phrases that we hear. Some examples include "unsub" (unknown subject), "profile", "serial killer", "sadist", and "trophy".
+
+### The Project
+#### Is there a connection?
+This project aims to look at the recurring elements of Criminal Minds episodes to see if there is any connection between these recurring elements and the outcome of the episode (i.e. Is the culprit caught?). Are there creative elements that are connected with the outcome of the episode? For example, if the word "unsub" is said more often in an episode, is the criminal caught more often? Furthermore, the project will look at the frequency of some of these elements, including what the most common key words spoken are as well as the character names that are said the most.
+
+### The Data
+The majority of the data was gathered from Springfield! Springfield!, a site that contains all the episode scripts for all fourteen seasons of Criminal Minds. Additional data has been gathered from the Criminal Minds Wiki and Criminal Minds Wikipedia page to get information about the outcome of the episode.
+
+### Special Thanks
+- To be added in later

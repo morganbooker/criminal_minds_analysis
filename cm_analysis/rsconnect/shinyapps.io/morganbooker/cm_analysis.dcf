@@ -1,0 +1,12 @@
+name: cm_analysis
+title: cm_analysis
+username:
+account: morganbooker
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1510116
+bundleId: 2608428
+url: https://morganbooker.shinyapps.io/cm_analysis/
+when: 1574384286.95933
+asMultiple: FALSE
+asStatic: FALSE

@@ -48,11 +48,10 @@ cm_name <- cm_words_bau %>%
   mutate(word = reorder(word, n)) %>% 
   
   ggplot(aes(x = word, y = n, fill = n)) +
-  geom_col() +
+  geom_col(show.legend = FALSE) +
   coord_flip() +
   labs(x = NULL,
        y = NULL,
-       fill = "Word Count",
        title = "How many times do they say your name?",
        subtitle = "Based on the first five seasons of Criminal Minds")
 
@@ -61,11 +60,10 @@ cm_buzz <- cm_words_buzz %>%
   mutate(word = reorder(word, n)) %>% 
   
   ggplot(aes(x = word, y = n, fill = n)) +
-  geom_col() +
+  geom_col(show.legend = FALSE) +
   coord_flip() +
   labs(x = NULL,
        y = NULL,
-       fill = "Word Count",
        title = "How many times do they this key word?",
        subtitle = "Based on the first five seasons of Criminal Minds")
 
@@ -78,12 +76,11 @@ cm_name_season <- cm_words_bau %>%
   mutate(word = reorder(word, n)) %>% 
   
   ggplot(aes(x = word, y = n, fill = n)) +
-  geom_col() +
+  geom_col(show.legend = FALSE) +
   coord_flip() +
   facet_wrap(~season) +
   labs(x = NULL,
        y = NULL,
-       fill = "Word Count",
        title = "How many times do they say your name each season?")
 
 cm_buzz_season <- cm_words_buzz %>% 
@@ -93,12 +90,11 @@ cm_buzz_season <- cm_words_buzz %>%
   mutate(word = reorder(word, n)) %>% 
   
   ggplot(aes(x = word, y = n, fill = n)) +
-  geom_col() +
+  geom_col(show.legend = FALSE) +
   coord_flip() +
   facet_wrap(~season) +
   labs(x = NULL,
        y = NULL,
-       fill = "Word Count",
        title = "How many times do they say this key word each season?",
        subtitle = "Based on the first five seasons of Criminal Minds")
 
@@ -112,6 +108,8 @@ cm_caught <- cm_season %>%
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = NULL,
        y = "Number of Episodes",
        title = "Number of Times the BAU Caught the Criminal",
@@ -124,6 +122,8 @@ cm_caught_season <- cm_season %>%
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   facet_wrap(~season) +
   labs(x = NULL,
        y = "Number of Episodes",
@@ -137,6 +137,8 @@ cm_gender <- cm_season %>%
   
   ggplot(aes(x = criminal_gender, fill = criminal_gender)) +
   geom_bar(show.legend = FALSE) +
+  scale_fill_manual(values = c("darkslateblue", "dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = NULL,
        y = "Number of Episodes",
        title = "Gender Distribution of Criminals in Criminal Minds",
@@ -148,6 +150,8 @@ cm_gender_season <- cm_season %>%
   
   ggplot(aes(x = criminal_gender, fill = criminal_gender)) +
   geom_bar(show.legend = FALSE) +
+  scale_fill_manual(values = c("darkslateblue", "dodgerblue", "firebrick2")) +
+  theme_light() +
   facet_wrap(~season) +
   labs(x = NULL,
        y = "Number of Episodes",

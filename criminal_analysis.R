@@ -32,6 +32,8 @@ reid <- cm_words_bau %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying Spencer Reid?",
@@ -50,6 +52,8 @@ hotch <- cm_words_bau %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying Aaron Hotchner?",
@@ -68,6 +72,8 @@ rossi <- cm_words_bau %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying David Rossi?",
@@ -86,6 +92,8 @@ morgan <- cm_words_bau %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying Derek Morgan?",
@@ -104,6 +112,8 @@ prentiss <- cm_words_bau %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying Emily Prentiss?",
@@ -122,6 +132,8 @@ gideon <- cm_words_bau %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying Jason Gideon?",
@@ -140,6 +152,8 @@ jj <- cm_words_bau %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying Jennifer Jareau?",
@@ -158,6 +172,8 @@ garcia <- cm_words_bau %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying Penelope Garcia?",
@@ -176,6 +192,8 @@ greenaway <- cm_words_bau %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying Elle Greenaway?",
@@ -216,6 +234,8 @@ unsub <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying unsub?",
@@ -234,6 +254,8 @@ kill <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying kill?",
@@ -252,6 +274,8 @@ victim <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying victim?",
@@ -270,6 +294,8 @@ killer <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying killer?",
@@ -288,6 +314,8 @@ profile <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying profile?",
@@ -306,6 +334,8 @@ murder <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying murder?",
@@ -324,6 +354,8 @@ serial <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying serial?",
@@ -342,6 +374,8 @@ blood <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying blood?",
@@ -360,6 +394,8 @@ suspect <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying suspect?",
@@ -378,6 +414,8 @@ criminal <- cm_words_buzz %>%
   ggplot(aes(x = caught, y = n, group = episode, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Times Said in Episode",
        title = "Is there a relationship between the criminal being caught and saying criminal?",
@@ -406,6 +444,8 @@ write_rds(criminal, "./cm_analysis/objects/criminal.rds")
 
 ##### CRIMINAL TYPE #####
 
+# Top 10 Killer Types
+
 # Serial Killer
 
 serial_killer <- cm_type %>% 
@@ -416,6 +456,8 @@ serial_killer <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Serial Killers",
        title = "Is there a relationship between being a serial killer and being caught?",
@@ -431,6 +473,8 @@ kidnapper <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Kidnappers",
        title = "Is there a relationship between being a kidnapper and being caught?",
@@ -446,6 +490,8 @@ spree_killer <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Spree Killers",
        title = "Is there a relationship between being a spree killer and being caught?",
@@ -461,6 +507,8 @@ stalker <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Stalkers",
        title = "Is there a relationship between being a stalker and being caught?",
@@ -476,6 +524,8 @@ cop_killer <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Cop Killers",
        title = "Is there a relationship between being a cop killer and being caught?",
@@ -491,6 +541,8 @@ serial_rapist <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Serial Rapists",
        title = "Is there a relationship between being a serial rapist and being caught?",
@@ -506,6 +558,8 @@ copycat <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Copycats",
        title = "Is there a relationship between being a copycat killer and being caught?",
@@ -521,6 +575,8 @@ robber <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Robbers",
        title = "Is there a relationship between being a robber and being caught?",
@@ -536,6 +592,8 @@ family_a <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Serial Killers",
        title = "Is there a relationship between being a family annihilator and being caught?",
@@ -551,6 +609,8 @@ proxy_killer <- cm_type %>%
   ggplot(aes(x = caught, y = n, fill = caught)) +
   geom_col(position = "dodge", color = "white", show.legend = FALSE) +
   facet_wrap(~season) +
+  scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = "Number of Proxy Killers",
        title = "Is there a relationship between being a proxy killer and being caught?",
@@ -576,11 +636,6 @@ write_rds(family_a, "./cm_analysis/objects/family_a.rds")
 
 write_rds(proxy_killer, "./cm_analysis/objects/proxy_killer.rds")
 
-# top 10 killer types
-
-
-
-
 ##### ALIVE #####
 
 # Season One
@@ -593,6 +648,9 @@ alive_1 <- cm_season %>%
   
   ggplot(aes(x = caught, y = n, fill = alive)) +
   geom_col(position = "dodge", color = "white") +
+  scale_fill_manual(values = c("darkslateblue", "dodgerblue", 
+                               "darkorchid3", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = NULL,
        title = "Are criminals caught dead or alive?",
@@ -609,6 +667,9 @@ alive_2 <- cm_season %>%
   
   ggplot(aes(x = caught, y = n, fill = alive)) +
   geom_col(position = "dodge", color = "white") +
+  scale_fill_manual(values = c("darkslateblue", "dodgerblue", 
+                               "darkorchid3", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = NULL,
        title = "Are criminals caught dead or alive?",
@@ -625,6 +686,9 @@ alive_3 <- cm_season %>%
   
   ggplot(aes(x = caught, y = n, fill = alive)) +
   geom_col(position = "dodge", color = "white") +
+  scale_fill_manual(values = c("darkslateblue", "dodgerblue", 
+                               "darkorchid3", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = NULL,
        title = "Are criminals caught dead or alive?",
@@ -641,6 +705,9 @@ alive_4 <- cm_season %>%
   
   ggplot(aes(x = caught, y = n, fill = alive)) +
   geom_col(position = "dodge", color = "white") +
+  scale_fill_manual(values = c("darkslateblue", "dodgerblue", 
+                               "darkorchid3", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = NULL,
        title = "Are criminals caught dead or alive?",
@@ -657,6 +724,9 @@ alive_5 <- cm_season %>%
   
   ggplot(aes(x = caught, y = n, fill = alive)) +
   geom_col(position = "dodge", color = "white") +
+  scale_fill_manual(values = c("darkslateblue", "dodgerblue", 
+                               "darkorchid3", "firebrick2")) +
+  theme_light() +
   labs(x = "Criminal Caught?",
        y = NULL,
        title = "Are criminals caught dead or alive?",

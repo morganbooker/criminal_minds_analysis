@@ -288,6 +288,7 @@ ui <- navbarPage(
                             plotOutput("character_plot")
                           )
                         )),
+               
                tabPanel("Buzzwords",
                         sidebarLayout(
                           sidebarPanel(
@@ -298,12 +299,16 @@ ui <- navbarPage(
                                         choices = buzzword_options,
                                         selected = buzzword_options[1]),
                             
+                            p("Only the top 10 buzzwords were used.")
+                            
                           ),
                           
                           mainPanel(
                             plotOutput("buzz_plot")
                           )
+                          
                         )),
+               
                tabPanel("Criminal Type",
                         sidebarLayout(
                           sidebarPanel(
@@ -313,6 +318,8 @@ ui <- navbarPage(
                                         "Which Type of Criminal?",
                                         choices = criminal_options,
                                         selected = criminal_options[1]),
+                            
+                            p("Only the top 10 criminal types were used.")
                             
                           ),
                           
@@ -340,16 +347,14 @@ ui <- navbarPage(
              
     ),
     
-    tabPanel("Future Models Discussion",
-             fluidPage(
-               p("A way to further this project would be to build a 
-                  model that predicts if the criminal will be caught 
-                  based on the frequency of certain words. Building 
-                  that sort of model is beyond the scope of this course."),
-             )),
+
+    
     tabPanel("About",
+             
              fluidPage(
+               
                withMathJax(includeMarkdown("about.Rmd"))
+               
              ))
 )
 
@@ -409,7 +414,7 @@ server <- function(input, output) {
     v <- terms()
     wordcloud_rep(names(v), v, scale=c(4,0.5),
                   min.freq = input$freq, max.words=input$max,
-                  colors = brewer.pal(8, "Spectral"))
+                  colors = brewer.pal(8, "RdYlBu"))
   })
   
   output$character_plot <- renderPlot({
@@ -526,6 +531,7 @@ server <- function(input, output) {
       alive_5
     }
   })
+
   
 }
 

@@ -2,20 +2,22 @@
 # Load necessary libraries
 
 library(fs)
-library(tm)
 library(rvest)
 library(janitor)
-library(memoise)
 library(tidytext)
-library(wordcloud)
 library(tidyverse)
 library(RColorBrewer)
 
-# read in objects
+# Read in objects
 
-read_rds("./cm_analysis/cm_season.rds")
+read_rds("./cm_analysis/objects/cm_season.rds")
 
-# have character names/nicknames all count as one word
+read_rds("./cm_analysis/objects/cm_words.rds")
+
+# Mutate the words so that all versions of a character's name (first name, last
+# name, nickname) all count as one word so it's easier to count the aggregate of
+# character name appearance instead of counting each separate part of the name
+# individually
 
 cm_words_bau <- cm_words %>% 
   filter(word %in% bau) %>% 
@@ -31,10 +33,15 @@ cm_words_bau <- cm_words %>%
     word == "elle" | word == "greenaway" ~ "Elle Greenaway"
   ))
 
+# Filter words to only look at the buzzwords
+
 cm_words_buzz <- cm_words %>% 
   filter(word %in% buzzwords)
 
-# plot of most frequent words
+# Create plots of the most frequent words said in the first five seasons of the
+# show, reordering the words by frequency, making sure to flip the coordinates
+# of the plot so labels are easier to read, and adding color to emphasize the
+# even further the number of times words are said
 
 cm_name <- cm_words_bau %>% 
   count(word, sort = TRUE) %>% 
@@ -56,13 +63,15 @@ cm_buzz <- cm_words_buzz %>%
   ggplot(aes(x = word, y = n, fill = n)) +
   geom_col() +
   coord_flip() +
+  theme_dark() +
   labs(x = NULL,
        y = NULL,
        fill = "Word Count",
        title = "How many times do they this key word?",
        subtitle = "Based on the first five seasons of Criminal Minds")
 
-# plot of most frequent words by season
+# Create similar plots as above of frequency of words, but group and facet by
+# season as well
 
 cm_name_season <- cm_words_bau %>% 
   group_by(season) %>% 
@@ -94,6 +103,9 @@ cm_buzz_season <- cm_words_buzz %>%
        title = "How many times do they say this key word each season?",
        subtitle = "Based on the first five seasons of Criminal Minds")
 
+# Create plots that show how often criminals are caught across the first five
+# seasons
+
 cm_caught <- cm_season %>% 
   group_by(caught) %>% 
   count() %>% 
@@ -119,19 +131,95 @@ cm_caught_season <- cm_season %>%
        title = "Number of Times the BAU Caught the Criminal each Season",
        subtitle = "Based on the first five seasons of Criminal Minds.")
 
+# Create plots that show how often the gender distribution of criminals
+
+cm_gender <- cm_season %>%
+  drop_na(criminal_gender) %>% 
+  
+  ggplot(aes(x = criminal_gender, fill = criminal_gender)) +
+  geom_bar(show.legend = FALSE) +
+  labs(x = NULL,
+       y = "Number of Episodes",
+       title = "Gender Distribution of Criminals in Criminal Minds",
+       subtitle = "Based on the first five seasons of Criminal Minds")
+
+cm_gender_season <- cm_season %>%
+  drop_na(criminal_gender) %>% 
+  group_by(season) %>% 
+  
+  ggplot(aes(x = criminal_gender, fill = criminal_gender)) +
+  geom_bar(show.legend = FALSE) +
+  facet_wrap(~season) +
+  labs(x = NULL,
+       y = "Number of Episodes",
+       title = "Gender Distribution of Criminals in Criminal Minds each Season",
+       subtitle = "Based on the first five seasons of Criminal Minds")
+
+# Combine all the criminal type columns into one, get rid of missing values
+
+cm_type <- cm_season %>% 
+  select(episode, season, 
+         criminal_type_1, 
+         criminal_type_2, 
+         criminal_type_3, 
+         criminal_type_4, 
+         criminal_type_5) %>% 
+  pivot_longer(c(criminal_type_1, 
+                 criminal_type_2, 
+                 criminal_type_3, 
+                 criminal_type_4, 
+                 criminal_type_5)) %>% 
+  drop_na()
+
+# Create plots for frequency of criminal type, ordering by frequency
+
+cm_crim <- cm_type %>% 
+  count(value, sort = TRUE) %>% 
+  mutate(value = reorder(value, n)) %>% 
+  
+  ggplot(aes(x = value, y = n, fill = n)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(y = "Criminal Type Count",
+       x = NULL,
+       title = "Type of Criminals Caught by BAU",
+       subtitle = "Based on the first five seasons of Criminal Minds")
+
+cm_crim_season <- cm_type %>% 
+  group_by(season) %>% 
+  count(value, sort = TRUE) %>%
+  filter(n > 2) %>% 
+  
+  ggplot(aes(x = value, y = n, fill = n)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  facet_wrap(~season) +
+  labs(x = NULL,
+       y = "Criminal Type Count",
+       title = "Type of Criminals Caught by BAU each Season",
+       subtitle = "Based on the first five seasons of Criminal Minds")
+
 # Write out plots
 
-write_rds(cm_name, "./cm_analysis/cm_name.rds")
+write_rds(cm_name, "./cm_analysis/objects/cm_name.rds")
 
-write_rds(cm_name_season, "./cm_analysis/cm_name_season.rds")
+write_rds(cm_name_season, "./cm_analysis/objects/cm_name_season.rds")
 
-write_rds(cm_buzz, "./cm_analysis/cm_buzz.rds")
+write_rds(cm_buzz, "./cm_analysis/objects/cm_buzz.rds")
 
-write_rds(cm_buzz_season, "./cm_analysis/cm_buzz_season.rds")
+write_rds(cm_buzz_season, "./cm_analysis/objects/cm_buzz_season.rds")
 
-write_rds(cm_caught, "./cm_analysis/cm_caught.rds")
+write_rds(cm_caught, "./cm_analysis/objects/cm_caught.rds")
 
-write_rds(cm_caught_season, "./cm_analysis/cm_caught_season.rds")
+write_rds(cm_caught_season, "./cm_analysis/objects/cm_caught_season.rds")
+
+write_rds(cm_gender, "./cm_analysis/objects/cm_gender.rds")
+
+write_rds(cm_gender_season, "./cm_analysis/objects/cm_gender_season.rds")
+
+write_rds(cm_crim, "./cm_analysis/objects/cm_crim.rds")
+
+write_rds(cm_crim_season, "./cm_analysis/objects/cm_crim_season.rds")
 
 
 

@@ -63,7 +63,6 @@ cm_buzz <- cm_words_buzz %>%
   ggplot(aes(x = word, y = n, fill = n)) +
   geom_col() +
   coord_flip() +
-  theme_dark() +
   labs(x = NULL,
        y = NULL,
        fill = "Word Count",

@@ -5,8 +5,8 @@ account: morganbooker
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1510116
-bundleId: 2640451
+bundleId: 2640926
 url: https://morganbooker.shinyapps.io/cm_analysis/
-when: 1575471140.16139
+when: 1575479796.06437
 asMultiple: FALSE
 asStatic: FALSE

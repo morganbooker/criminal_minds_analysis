@@ -163,7 +163,8 @@ cm_type <- cm_season %>%
          criminal_type_2, 
          criminal_type_3, 
          criminal_type_4, 
-         criminal_type_5) %>% 
+         criminal_type_5,
+         caught) %>% 
   pivot_longer(c(criminal_type_1, 
                  criminal_type_2, 
                  criminal_type_3, 

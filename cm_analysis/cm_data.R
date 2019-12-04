@@ -50,6 +50,7 @@ cm_name <- cm_words_bau %>%
   ggplot(aes(x = word, y = n, fill = n)) +
   geom_col(show.legend = FALSE) +
   coord_flip() +
+  theme_light() +
   labs(x = NULL,
        y = NULL,
        title = "How many times do they say your name?",
@@ -62,6 +63,7 @@ cm_buzz <- cm_words_buzz %>%
   ggplot(aes(x = word, y = n, fill = n)) +
   geom_col(show.legend = FALSE) +
   coord_flip() +
+  theme_light() +
   labs(x = NULL,
        y = NULL,
        title = "How many times do they this key word?",
@@ -79,6 +81,7 @@ cm_name_season <- cm_words_bau %>%
   geom_col(show.legend = FALSE) +
   coord_flip() +
   facet_wrap(~season) +
+  theme_light() +
   labs(x = NULL,
        y = NULL,
        title = "How many times do they say your name each season?")
@@ -93,6 +96,7 @@ cm_buzz_season <- cm_words_buzz %>%
   geom_col(show.legend = FALSE) +
   coord_flip() +
   facet_wrap(~season) +
+  theme_light() +
   labs(x = NULL,
        y = NULL,
        title = "How many times do they say this key word each season?",
@@ -184,6 +188,7 @@ cm_crim <- cm_type %>%
   ggplot(aes(x = value, y = n, fill = n)) +
   geom_col(show.legend = FALSE) +
   coord_flip() +
+  theme_light() +
   labs(y = "Criminal Type Count",
        x = NULL,
        title = "Type of Criminals Caught by BAU",
@@ -198,6 +203,7 @@ cm_crim_season <- cm_type %>%
   geom_col(show.legend = FALSE) +
   coord_flip() +
   facet_wrap(~season) +
+  theme_light() +
   labs(x = NULL,
        y = "Criminal Type Count",
        title = "Type of Criminals Caught by BAU each Season",

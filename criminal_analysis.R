@@ -1,8 +1,14 @@
 
+#### LIBRARIES ####
+
 # Load in necessary libraries
 
 library(fs)
 library(tidyverse)
+
+#### DATA FRAMES #####
+
+# Load in data frames
 
 cm_words_bau <- cm_words %>% 
   filter(word %in% bau) %>% 
@@ -19,6 +25,16 @@ cm_words_bau <- cm_words %>%
   ))
 
 ##### CHARACTERS #####
+
+# All plots are made in a similar way. First, I group by season and filter out
+# the specific character name. Then, I group by season, episode, and whether the
+# episode was caught and count these values, dropping missing caught data so
+# that I can have the right type of grouping for the plot. Next, I create a
+# ggplot where episode is the grouping variable, I then dodge episodes so that
+# each episode appears as its own bar on the plot. I then facet by season so we
+# can see all episodes in a season, then used my own color scale because I
+# thought it looked nicer than the default and I changed the theme because I
+# didn't like how the default gray background looked.
 
 # Spencer Reid
 
@@ -200,6 +216,8 @@ greenaway <- cm_words_bau %>%
        subtitle = "Based on the first five seasons of Criminal Minds",
        caption = "Note: each bar represents a different episode")
 
+# Write out the objects
+
 write_rds(reid, "./cm_analysis/objects/reid.rds")
 
 write_rds(hotch, "./cm_analysis/objects/hotch.rds")
@@ -220,7 +238,18 @@ write_rds(greenaway, "./cm_analysis/objects/greenaway.rds")
 
 ##### BUZZWORDS #####
 
-# Top 10 words used
+# All plots are made in a similar way. First, I group by season and filter out
+# the specific buzzword. Then, I group by season, episode, and whether the
+# episode was caught and count these values, dropping missing caught data so
+# that I can have the right type of grouping for the plot. Next, I create a
+# ggplot where episode is the grouping variable, I then dodge episodes so that
+# each episode appears as its own bar on the plot. I then facet by season so we
+# can see all episodes in a season, then used my own color scale because I
+# thought it looked nicer than the default and I changed the theme because I
+# didn't like how the default gray background looked.
+
+# Only the Top 10 Buzzwords from the general overview were used for simplicity
+# reasons.
 
 # Unsub
 
@@ -422,6 +451,8 @@ criminal <- cm_words_buzz %>%
        subtitle = "Based on the first five seasons of Criminal Minds",
        caption = "Note: each bar represents a different episode")
 
+# Write out objects
+
 write_rds(unsub, "./cm_analysis/objects/unsub.rds")
 
 write_rds(kill, "./cm_analysis/objects/kill.rds")
@@ -444,7 +475,18 @@ write_rds(criminal, "./cm_analysis/objects/criminal.rds")
 
 ##### CRIMINAL TYPE #####
 
-# Top 10 Killer Types
+# All plots are made in a similar way. First, I group by season and filter out
+# the specific criminal type. Then, I group by season and whether the episode
+# was caught and count these values, dropping missing caught data so that I can
+# have the right type of grouping for the plot. I don't need to group by episode
+# like I did previously because (except on rare occasions) there is usually only
+# one killer per episode. Next, I create a ggplot and facet by season, then I
+# used my own color scale because I thought it looked nicer than the default and
+# I changed the theme because I didn't like how the default gray background
+# looked.
+
+# Only the top 10 killer types from the general overview section were used for
+# simplicity reasons
 
 # Serial Killer
 
@@ -454,7 +496,7 @@ serial_killer <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -471,7 +513,7 @@ kidnapper <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -488,7 +530,7 @@ spree_killer <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -505,7 +547,7 @@ stalker <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -522,7 +564,7 @@ cop_killer <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -539,7 +581,7 @@ serial_rapist <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -556,7 +598,7 @@ copycat <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -573,7 +615,7 @@ robber <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -590,7 +632,7 @@ family_a <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -607,7 +649,7 @@ proxy_killer <- cm_type %>%
   count(value, caught) %>% 
   
   ggplot(aes(x = caught, y = n, fill = caught)) +
-  geom_col(position = "dodge", color = "white", show.legend = FALSE) +
+  geom_col(show.legend = FALSE) +
   facet_wrap(~season) +
   scale_fill_manual(values = c("dodgerblue", "firebrick2")) +
   theme_light() +
@@ -615,6 +657,8 @@ proxy_killer <- cm_type %>%
        y = "Number of Proxy Killers",
        title = "Is there a relationship between being a proxy killer and being caught?",
        subtitle = "Based on the first five seasons of Criminal Minds")
+
+# Write out objects
 
 write_rds(serial_killer, "./cm_analysis/objects/serial_killer.rds")
 
@@ -637,6 +681,18 @@ write_rds(family_a, "./cm_analysis/objects/family_a.rds")
 write_rds(proxy_killer, "./cm_analysis/objects/proxy_killer.rds")
 
 ##### ALIVE #####
+
+# All plots are made in a similar way. First, I group by season and filter out
+# the specific season. Then, I count how many times the criminal was caught and
+# alive, dropping missing caught data so I can have the right type of grouping
+# for the plot. There's no need to group by episode here because the criminal
+# can only be caught or escape once per episode, so grouping by episode is
+# redunant and dodging by episode would make the plot very messy for no good
+# reason. Next, I create a ggplot and dodge by position so it's clear what the
+# counts are for each as opposed to the default stacked chart. I then used my
+# own color scale because I thought it looked nicer than the default and I
+# changed the theme because I didn't like how the default gray background
+# looked.
 
 # Season One
 
@@ -732,6 +788,8 @@ alive_5 <- cm_season %>%
        title = "Are criminals caught dead or alive?",
        subtitle = "Based on the season five of Criminal Minds",
        fill = "Criminal Alive?")
+
+# Write out objects
 
 write_rds(alive_1, "./cm_analysis/objects/alive_1.rds")
 

@@ -1,4 +1,6 @@
 
+#### LIBRAIRES ####
+
 # Load in necessary libraries
 
 library(fs)
@@ -6,6 +8,8 @@ library(rvest)
 library(janitor)
 library(tidytext)
 library(tidyverse)
+
+#### DATA COLLECTION ####
 
 # Load in script data from online
 # Load in base url for scrapping
@@ -52,6 +56,8 @@ for (i in 1:113) {
   all.scripts[i] <- html_text(script, trim = TRUE)
 }
 
+#### ASSEMBLE DATA FRAME ####
+
 # Create a tibble to store all the scripts adding the season and episode code to
 # the rows
 
@@ -96,6 +102,8 @@ cm_data <- read_csv("./cm_analysis/cm_data.csv", col_type = cols(
 
 cm_joint <- left_join(cm_scripts, cm_data, by = "episode")
 
+#### CREATE KEY PHRASES LISTS ####
+
 # Create list of main character names
 
 bau <- c("jason", "gideon", "aaron", "hotch", "hotchner", 
@@ -115,6 +123,8 @@ buzzwords <- c("unsub", "suspect", "murder", "criminal",
                "rapist", "rape", "kidnapper", "abducted", "hitman", 
                "thrill", "con", "proxy", "gangster", "copycat", 
                "terrorist", "cannibal", "criminals")
+
+#### CREATE DATA FRAMES ####
 
 # Separate each script into individual words, only include pre-selected
 # buzzwords. These buzzwords are based off my knowledge of the show.
@@ -142,6 +152,8 @@ cm_season <- cm_data %>%
              str_detect(episode, "s04") ~ "Season 4",
              str_detect(episode, "s05") ~ "Season 5"
            ))
+
+#### WRITE OUT OBJECTS ####
 
 # Write object out to use in shiny app later
 

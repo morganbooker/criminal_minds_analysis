@@ -1,4 +1,6 @@
 
+#### LIBRARIES ####
+
 # Load necessary libraries
 
 library(fs)
@@ -7,6 +9,8 @@ library(janitor)
 library(tidytext)
 library(tidyverse)
 library(RColorBrewer)
+
+#### DATA FRAMES ####
 
 # Read in objects
 
@@ -38,10 +42,13 @@ cm_words_bau <- cm_words %>%
 cm_words_buzz <- cm_words %>% 
   filter(word %in% buzzwords)
 
-# Create plots of the most frequent words said in the first five seasons of the
-# show, reordering the words by frequency, making sure to flip the coordinates
-# of the plot so labels are easier to read, and adding color to emphasize the
-# even further the number of times words are said
+#### CHARACTER NAMES ####
+
+# Create a plot of the frequency of which character names are said in the first
+# five seasons of the show, reording by frequency, making sure to flip the
+# coordinates so the plot labels are easier to read, adding color to emphasize
+# even further the number of times each word is said, and changing the theme of
+# the plot because I didn't like how the gray looked
 
 cm_name <- cm_words_bau %>% 
   count(word, sort = TRUE) %>% 
@@ -56,21 +63,9 @@ cm_name <- cm_words_bau %>%
        title = "How many times do they say your name?",
        subtitle = "Based on the first five seasons of Criminal Minds")
 
-cm_buzz <- cm_words_buzz %>% 
-  count(word, sort = TRUE) %>% 
-  mutate(word = reorder(word, n)) %>% 
-  
-  ggplot(aes(x = word, y = n, fill = n)) +
-  geom_col(show.legend = FALSE) +
-  coord_flip() +
-  theme_light() +
-  labs(x = NULL,
-       y = NULL,
-       title = "How many times do they this key word?",
-       subtitle = "Based on the first five seasons of Criminal Minds")
 
-# Create similar plots as above of frequency of words, but group and facet by
-# season as well
+# Create a similar plot as above of frequency of character names, but this time,
+# group and facet by season as well
 
 cm_name_season <- cm_words_bau %>% 
   group_by(season) %>% 
@@ -85,6 +80,30 @@ cm_name_season <- cm_words_bau %>%
   labs(x = NULL,
        y = NULL,
        title = "How many times do they say your name each season?")
+
+#### BUZZWORDS ####
+
+# Create a plot of the frequency of which buzzwords are said in the first
+# five seasons of the show, reording by frequency, making sure to flip the
+# coordinates so the plot labels are easier to read, adding color to emphasize
+# even further the number of times each word is said, and changing the theme of
+# the plot because I didn't like how the gray looked
+
+cm_buzz <- cm_words_buzz %>% 
+  count(word, sort = TRUE) %>% 
+  mutate(word = reorder(word, n)) %>% 
+  
+  ggplot(aes(x = word, y = n, fill = n)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  theme_light() +
+  labs(x = NULL,
+       y = NULL,
+       title = "How many times do they this key word?",
+       subtitle = "Based on the first five seasons of Criminal Minds")
+
+# Create a similar plot as above of frequency of character names, but this time,
+# group and facet by season as well
 
 cm_buzz_season <- cm_words_buzz %>% 
   group_by(season) %>% 
@@ -102,8 +121,12 @@ cm_buzz_season <- cm_words_buzz %>%
        title = "How many times do they say this key word each season?",
        subtitle = "Based on the first five seasons of Criminal Minds")
 
+#### CRIMINAL CAUGHT? ####
+
 # Create plots that show how often criminals are caught across the first five
-# seasons
+# seasons by grouping by caught counting and dropping missing variables, hiding
+# the legend because it's redundant, and changing the colors and themes to
+# something I liked better
 
 cm_caught <- cm_season %>% 
   group_by(caught) %>% 
@@ -118,6 +141,9 @@ cm_caught <- cm_season %>%
        y = "Number of Episodes",
        title = "Number of Times the BAU Caught the Criminal",
        subtitle = "Based on the first five seasons of Criminal Minds.")
+
+# Create plots a similar plot as above, but this time group and facet by season
+# as well
 
 cm_caught_season <- cm_season %>% 
   group_by(caught, season) %>% 
@@ -134,7 +160,12 @@ cm_caught_season <- cm_season %>%
        title = "Number of Times the BAU Caught the Criminal each Season",
        subtitle = "Based on the first five seasons of Criminal Minds.")
 
-# Create plots that show how often the gender distribution of criminals
+#### CRIMINAL GENDER ####
+
+# Create plots that show how criminal genders across the first five
+# seasons by grouping by caught counting and dropping missing variables, hiding
+# the legend because it's redundant, and changing the colors and themes to
+# something I liked better
 
 cm_gender <- cm_season %>%
   drop_na(criminal_gender) %>% 
@@ -147,6 +178,9 @@ cm_gender <- cm_season %>%
        y = "Number of Episodes",
        title = "Gender Distribution of Criminals in Criminal Minds",
        subtitle = "Based on the first five seasons of Criminal Minds")
+
+# Create plots a similar plot as above, but this time group and facet by season
+# as well
 
 cm_gender_season <- cm_season %>%
   drop_na(criminal_gender) %>% 
@@ -162,7 +196,11 @@ cm_gender_season <- cm_season %>%
        title = "Gender Distribution of Criminals in Criminal Minds each Season",
        subtitle = "Based on the first five seasons of Criminal Minds")
 
-# Combine all the criminal type columns into one, get rid of missing values
+#### CRIMINAL TYPE ####
+
+# Combine all the criminal type columns into one and get rid of missing values
+# so I can look at all the criminal types that appear instead of having to look
+# at the five different categories per episode
 
 cm_type <- cm_season %>% 
   select(episode, season, 
@@ -179,7 +217,9 @@ cm_type <- cm_season %>%
                  criminal_type_5)) %>% 
   drop_na()
 
-# Create plots for frequency of criminal type, ordering by frequency
+# Create plots that show how common different criminal types are across the
+# first five seasons, reordering by frequency, hiding the legend because it's
+# redundant, and changing the colors and themes to something I liked better
 
 cm_crim <- cm_type %>% 
   count(value, sort = TRUE) %>% 
@@ -194,6 +234,10 @@ cm_crim <- cm_type %>%
        title = "Type of Criminals Caught by BAU",
        subtitle = "Based on the first five seasons of Criminal Minds")
 
+# Create a similar plot as above, but this time, group and facet by season as
+# well, and only keep criminal types that appear more than once or else the
+# plots are too crowded
+
 cm_crim_season <- cm_type %>% 
   group_by(season) %>% 
   count(value, sort = TRUE) %>%
@@ -207,7 +251,10 @@ cm_crim_season <- cm_type %>%
   labs(x = NULL,
        y = "Criminal Type Count",
        title = "Type of Criminals Caught by BAU each Season",
-       subtitle = "Based on the first five seasons of Criminal Minds")
+       subtitle = "Based on the first five seasons of Criminal Minds",
+       caption = "Only criminal types that appear more than once are included.")
+
+#### WRITE OUT PLOTS ####
 
 # Write out plots
 

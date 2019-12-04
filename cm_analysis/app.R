@@ -210,9 +210,13 @@ ui <- navbarPage(
     theme = shinytheme("cyborg"),
     
     tabPanel("General Overview",
+             
              tabsetPanel(
+               
                tabPanel("All Seasons",
+                        
                         sidebarLayout(
+                          
                           sidebarPanel(
                             
                             # Create input selector
@@ -224,11 +228,19 @@ ui <- navbarPage(
                           ),
                           
                           mainPanel(
+                            
+                            # Place plot output here
+                            
                             plotOutput("cm_overview")
+                            
                           )
+                          
                         )),
+               
                tabPanel("By Season",
+                        
                         sidebarLayout(
+                          
                           sidebarPanel(
                             
                             # Create input selector
@@ -240,43 +252,83 @@ ui <- navbarPage(
                           ),
                           
                           mainPanel(
+                            
+                            # Place plot output here
+                            
                             plotOutput("cm_overview_season")
                           )
+                          
                         ))
+               
              ),
+             
              ),
     
     tabPanel("Word Cloud",
+             
              fluidPage(
+               
                titlePanel("Word Cloud"),
+               
                sidebarLayout(
+                 
                  sidebarPanel(
+                   
+                  # Create input selector
+                   
                    selectInput("selection", 
                                "Season:",
                                choices = select_season,
                                selected = select_season[1]),
+                   
+                   # Create action button to switch between seasons
+                   
                    actionButton("update", "Click Me!"),
+                   
                    hr(),
+                   
+                   # Create minimum word count with the maximum being 800 since
+                   # that's the highest frequency of any of the chosen words. I
+                   # chose an initial starting value of 500 because it gives a
+                   # nice amount of words in the cloud
+                   
                    sliderInput("freq",
                                "Minimum Word Count:",
                                min = 1, max = 800, value = 500),
+                   
+                   # Create a maximum number of words with the max being 61
+                   # since that's the total number of buzzwords and character
+                   # names. I chose an initial starting value of 30 because it
+                   # puts a nice amount of words in the cloud
+                   
                    sliderInput("max",
                                "Maximum Number of Words:",
                                min = 1, max = 61, value = 30)
                  ),
+                 
                  mainPanel(
+                   
+                   # Place wordcloud here
                    plotOutput("plot")
+                   
                  )
+                 
                )
+               
              )),
     
     tabPanel("Criminal Analysis",
+             
              tabsetPanel(
+               
                tabPanel("Characters",
+                        
                         sidebarLayout(
+                          
                           sidebarPanel(
                             
                             # Create input selector
+                            
                             selectInput("character_op",
                                         "Which Character?",
                                         choices = character_options,
@@ -285,15 +337,22 @@ ui <- navbarPage(
                           ),
                           
                           mainPanel(
+                            
+                            # Place plot output here
+                            
                             plotOutput("character_plot")
                           )
+                          
                         )),
                
                tabPanel("Buzzwords",
+                        
                         sidebarLayout(
+                          
                           sidebarPanel(
                             
                             # Create input selector
+                            
                             selectInput("buzz_op",
                                         "Which Word?",
                                         choices = buzzword_options,
@@ -304,16 +363,23 @@ ui <- navbarPage(
                           ),
                           
                           mainPanel(
+                            
+                            # Place plot output here
+                            
                             plotOutput("buzz_plot")
+                            
                           )
                           
                         )),
                
                tabPanel("Criminal Type",
+                        
                         sidebarLayout(
+                          
                           sidebarPanel(
                             
                             # Create input selector
+                            
                             selectInput("crim_op",
                                         "Which Type of Criminal?",
                                         choices = criminal_options,
@@ -324,14 +390,23 @@ ui <- navbarPage(
                           ),
                           
                           mainPanel(
+                            
+                            # Place plot output here
+                            
                             plotOutput("crim_plot")
+                            
                           )
+                          
                         )),
+               
                tabPanel("Is the Criminal Alive in the End?",
+                        
                         sidebarLayout(
+                          
                           sidebarPanel(
                             
                             # Create input selector
+                            
                             selectInput("alive_op",
                                         "Pick a Season",
                                         choices = alive_options,
@@ -340,27 +415,38 @@ ui <- navbarPage(
                           ),
                           
                           mainPanel(
+                            
+                            # Place plot output here
+                            
                             plotOutput("alive_plot")
+                            
                           )
+                          
                         ))
+               
              ),
              
     ),
-    
-
     
     tabPanel("About",
              
              fluidPage(
                
+               # This allows me to include my Rmd about page on my shiny app
+               
                withMathJax(includeMarkdown("about.Rmd"))
                
              ))
+    
 )
 
 server <- function(input, output) {
   
+  # Create conditions to display the general overview plots where different
+  # plots are shown depending on what the input is
+  
   output$cm_overview <- renderPlot({
+    
     if(input$general_op == "Character Names") {
       cm_name
     }
@@ -378,168 +464,244 @@ server <- function(input, output) {
     }
   })
   
+  # Create conditions to display the general overview plots where different
+  # plots are shown depending on what the input is
+  
   output$cm_overview_season <- renderPlot({
+    
     if(input$general_op_season == "Character Names") {
       cm_name_season
     }
+    
     else if(input$general_op_season == "Buzzwords") {
       cm_buzz_season
     }
+    
     else if(input$general_op_season == "Criminal Caught?") {
       cm_caught_season
     }
+    
     else if(input$general_op_season == "Criminal Gender") {
       cm_gender_season
     }
+    
     else if(input$general_op_season == "Criminal Types") {
       cm_crim_season
     }
+    
   })
 
+  # Create the wordcloud ouput here and make it interactive
   
   terms <- reactive({
+    
     input$update
     
+    # Set up the loading section, putting my own custom message as the wordcloud
+    # loads up on the page, and set up the selectors
+    
     isolate({
+      
       withProgress({
+        
         setProgress(message = "Buzzzz...")
+        
         getTermMatrix(input$selection)
+        
       })
+      
     })
+    
   })
   
   wordcloud_rep <- repeatable(wordcloud)
   
+  # Render the wordcloud plot
+  
   output$plot <- renderPlot({
+    
     v <- terms()
-    wordcloud_rep(names(v), v, scale=c(4,0.5),
-                  min.freq = input$freq, max.words=input$max,
+    
+    wordcloud_rep(names(v), 
+                  v, 
+                  scale = c(4,0.5),
+                  min.freq = input$freq, 
+                  max.words = input$max,
                   colors = brewer.pal(8, "RdYlBu"))
   })
   
+  # Create conditions to display the character name plots where different
+  # plots are shown depending on what the input is
+  
   output$character_plot <- renderPlot({
+    
     if(input$character_op == "Penelope Garcia") {
       garcia
     }
+    
     else if(input$character_op == "Jason Gideon") {
       gideon
     }
+    
     else if(input$character_op == "Elle Greenaway") {
       greenaway
     }
+    
     else if(input$character_op == "Aaron Hotchner") {
       hotch
     }
+    
     else if(input$character_op == "Jennifer Jareau") {
       jj
     }
+    
     else if(input$character_op == "Derek Morgan") {
       morgan
     }
+    
     else if(input$character_op == "Emily Prentiss") {
       prentiss
     }
+    
     else if(input$character_op == "Spencer Reid") {
       reid
     }
+    
     else if(input$character_op == "David Rossi") {
       rossi
     }
+    
   })
    
+  # Create conditions to display the buzzword plots where different
+  # plots are shown depending on what the input is
   
   output$buzz_plot <- renderPlot({
+    
     if(input$buzz_op == "Unsub") {
       unsub
     }
+    
     else if(input$buzz_op == "Kill") {
       kill
     }
+    
     else if(input$buzz_op == "Victim") {
       victim
     }
+    
     else if(input$buzz_op == "Killer") {
       killer
     }
+    
     else if(input$buzz_op == "Profile") {
       profile
     }
+    
     else if(input$buzz_op == "Murder") {
       murder
     }
+    
     else if(input$buzz_op == "Serial") {
       serial
     }
+    
     else if(input$buzz_op == "Blood") {
       blood
     }
+    
     else if(input$buzz_op == "Suspect") {
       suspect
     }
+    
     else if(input$buzz_op == "Criminal") {
       criminal
     }
+    
   })
   
+  # Create conditions to display the criminal type plots where different
+  # plots are shown depending on what the input is
+  
   output$crim_plot <- renderPlot({
+    
     if(input$crim_op == "Cop Killer") {
       cop_killer
     }
+    
     else if(input$crim_op == "Copycat Killer") {
       copycat
     }
+    
     else if(input$crim_op == "Family Annihilator") {
       family_a
     }
+    
     else if(input$crim_op == "Kidnapper") {
       kidnapper
     }
+    
     else if(input$crim_op == "Proxy Killer") {
       proxy_killer
     }
+    
     else if(input$crim_op == "Robber") {
       robber
     }
+    
     else if(input$crim_op == "Serial Killer") {
       serial_killer
     }
+    
     else if(input$crim_op == "Serial Rapist") {
       serial_rapist
     }
+    
     else if(input$crim_op == "Spree Killer") {
       spree_killer
     }
+    
     else if(input$crim_op == "Stalker") {
       stalker
     }
+    
   })
   
+  # Create conditions to display the alive vs. dead plots where different
+  # plots are shown depending on what the input is
+  
   output$alive_plot <- renderPlot({
+    
     if(input$alive_op == "Season 1") {
       alive_1
     }
+    
     else if(input$alive_op == "Season 2") {
       alive_2
     }
+    
     else if(input$alive_op == "Season 3") {
       alive_3
     }
+    
     else if(input$alive_op == "Season 4") {
       alive_4
     }
+    
     else if(input$alive_op == "Season 5") {
       alive_5
     }
+    
   })
 
   
 }
 
 
+# Render shiny app
 
 shinyApp(ui, server)
 
 # to do:
-# comment all files
 # maybe make bar plots interactive--hover over and you'll see the count
-# create folder just for rds files since there are a lot
+# create subfolders for rds files since there are a lot

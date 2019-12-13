@@ -392,7 +392,13 @@ ui <- navbarPage(
                             
                             # Place plot output here
                             
-                            plotOutput("buzz_plot")
+                            plotOutput("buzz_plot"), 
+                            
+                            br(),
+                            
+                            # Place plot descriptions here
+                            
+                            textOutput("buzz_text")
                             
                           )
                           
@@ -464,9 +470,9 @@ ui <- navbarPage(
                             
                             p("Criminals were classified as 'unknown' if it 
                                was unclear at the end of the episode whether 
-                               they were alive or dead;this usually only 
+                               they were alive or dead; this usually only 
                                happened with episodes that ended on vague
-                               cliffhangers"),
+                               cliffhangers."),
                             
                             br(),
                             
@@ -582,11 +588,11 @@ server <- function(input, output) {
       
       "Disclaimer: In Seasons 1 and 2, there are suspects named Emily and
        David, which is why these character names show up in the count before
-       the characters ever appear on the show. On the show, the writers usually
-       refrain from having suspects with the same names as the characters, so
-       once the Emily Prentiss and David Rossi became series regulars in Seasons
-       2 and 3 respectively, the chart accurately reflects the frequency of 
-       their names being spoken."
+       the characters ever appear on the show. On the show, the writers 
+       generally refrain from having suspects with the same names as the 
+       characters, so once Emily Prentiss and David Rossi became series 
+       regulars in Seasons 2 and 3 respectively, the chart accurately 
+       reflects the frequency of their names being spoken."
       
     }
     
@@ -693,7 +699,12 @@ server <- function(input, output) {
       "Senior Supervisory Special Agent Jason Gideon was the BAU's best
        criminal profiler in his time on the show. He retired in the first
        episode of Season 3, but was still mentioned by the team after his
-       retirement."
+       retirement. In episodes where Gideon's name is said more than 15
+       times, the criminal always evades capture, suggesting that when
+       we hear his name at very high frequencies, we should expect the
+       criminal to go free. When his name is said less than 15 times,
+       however, there is more variability in whether or not the criminal
+       is captured."
     }
     
     else if(input$character_op == "Elle Greenaway") {
@@ -701,7 +712,8 @@ server <- function(input, output) {
        who specialized in sexual offense crimes. She left the BAU when she
        started developing symptoms of PTSD after being shot by an unsub in the
        middle of Season 2, and was never mentioned again by the team after
-       Season 3."
+       Season 3. There does not appear to be a consistent pattern that emerges
+       for the frequency of her name and criminal capture."
     }
     
     else if(input$character_op == "Aaron Hotchner") {
@@ -712,9 +724,11 @@ server <- function(input, output) {
        on the show. In Season 5, he becomes the obsession of a serial killer, 
        'The Reaper', who eventually goes on to murder Hotch's wife in the middle
        of the season, leading to Hotch's name being said more often in Season 5 
-       episodes. Hotch's name is also said the most frequently over the first
-       five seasons, which is why there is likely no consistent pattern between
-       the frequency of his name and whether a criminal is caught."
+       episodes. Whenever Hotch's name is said more than 20 times in an 
+       episode, the criminal is always caught, suggesting that the more his
+       name is said, the more likely we will see the criminal caught in the
+       end. It is also worth noting that his name is the one said most
+       frequently across all five seasons."
     }
     
     else if(input$character_op == "Jennifer Jareau") {
@@ -722,36 +736,51 @@ server <- function(input, output) {
        the team's point of contact with the police and media officials. Her
        name is often said a lot as she is the individual responsible for
        picking the cases the team pursues, introducing the team to local police,
-       and informing media strategies for the case. JJ appears in less episodes in
-       Season 4 due to the actress' maternity leave."
+       and informing media strategies for the case. JJ appears in less episodes 
+       in Season 4 due to the actress' maternity leave. There does not appear
+       to be a consistent pattern for frequency of JJ's name and criminal
+       capture across all 5 seasons; however, in Seasons 4 and 5, every time
+       her name is said more than 7 times, the criminal is caught."
     }
     
     else if(input$character_op == "Derek Morgan") {
       "Supervisory Special Agent Derek Morgan is a BAU agent who specializes in
        explosives, fixations, and obsessive behaviors. His name is said over 60
        times in a Season 2 episode where he is falsely accused of a murder in
-       his hometown."
+       his hometown. There does not really appear to be a consistent pattern
+       for frequency of Morgan's name and criminal capture; however, the
+       outlier episode from Season 2 really skews the overall distribution."
     }
     
     else if(input$character_op == "Emily Prentiss") {
       "Supervisory Special Agent Emily Prentiss is a BAU agent who replaced
        Elle Greenaway in Season 2. She is fluent in multiple languages, which
        makes her an important assest in cases where suspects or witnesses are
-       not fluent in English."
+       not fluent in English. When her name is said more than 12 times in an
+       episode, the criminal tends to be caught in the end."
     }
     
     else if(input$character_op == "Spencer Reid") {
       "Dr. Spencer Reid is a Supervisory Special Agent in the BAU and is a 
        certified genius with an eidetic memory. Reid is the youngest member
        of the team and is consider to be the most popular character on the
-       show. In Season 4, he had the biggest personal story arc with 4 episodes
-       dedicated to a crime Reid witnessed as a child."
+       show. He has two major multiple-episode story arcs that lead to an
+       increase of the frequency of his name. In Season 2, he was kidnapped
+       and tortured by an unsub and in Season 4, there were multiple
+       episodes dedicated to a crime he witnessed as a child. Except for
+       one episode in Season 2, in general, whenever Reid's name is said
+       more than 10 times in an episode, the criminal is caught, suggesting
+       that the more often we hear his name, the more likely we will see
+       the criminal get caught."
     }
     
     else if(input$character_op == "David Rossi") {
       "Senior Supervisory Special Agent David Rossi is one of the founders of
        the BAU. He retired early from the FBI in 1997, but left retirement and
-       rejoined the team after Jason Gideon left the BAU in Season 3."
+       rejoined the team after Jason Gideon left the BAU in Season 3. When
+       Rossi's name is said over 12 times in an episode, the criminal is
+       always caught, suggesting that the more often we hear his name, the
+       more likely the criminal will be caught."
     }
     
   })
@@ -799,6 +828,72 @@ server <- function(input, output) {
     
     else if(input$buzz_op == "Criminal") {
       criminal
+    }
+    
+  })
+  
+  # Create conditions to describe the buzzword plots
+  
+  output$buzz_text <- renderText({
+    
+    if(input$buzz_op == "Unsub") {
+      "'Unsub' is the most frequently said buzzword across all 5 seasons.
+       Whenever it is said more than 15 times in an episode, the criminal
+       is always caught. However, it's worth noting that this word tends
+       to have more within-season variability than most other buzzwords."
+    }
+    
+    else if(input$buzz_op == "Kill") {
+      "There is a considerable amount of variation in the frequency of 'kill'
+       being said in an episode and criminal capture. There does not appear
+       to be any consistent pattern here."
+    }
+    
+    else if(input$buzz_op == "Victim") {
+      "There is a considerable amount of variaibility in the frequency of
+       'victim' and criminal capture within each season. There is no clear
+       pattern here except for in Season 5 where the more often 'victim' is
+       said, the more often the criminal is caught."
+    }
+    
+    else if(input$buzz_op == "Killer") {
+      "Except for one episode in Season 1, whenever 'killer' is said more than
+       7 times in an episode, the criminal is always caught."
+    }
+    
+    else if(input$buzz_op == "Profile") {
+      "There does not appear to be a consistent pattern across all 5 seasons.
+       However, in Season 3, the more often 'profile' is said, the more likely
+       the criminal evades capture, which is an interesting find."
+    }
+    
+    else if(input$buzz_op == "Murder") {
+      "There does not appear to be a consistent pattern across all 5 seasons;
+       however, in Seasons 2, 4, and 5, when 'murder' is said more than 3
+       times, the criminal is always caught."
+    }
+    
+    else if(input$buzz_op == "Serial") {
+      "In Seasons 1 and 2, the more often 'serial' is said and in the episode
+       with the highest frequency of the word, the criminal evades capture.
+       Interestingly, we see the exact opposite relationship in Seasons 3,
+       4, and 5."
+    }
+    
+    else if(input$buzz_op == "Blood") {
+      "Whenever 'blood' is said more than 7 times in an episode, the criminal
+       is always caught."
+    }
+    
+    else if(input$buzz_op == "Suspect") {
+      "Whenever 'suspect' is said more than 5 times in an episode, the criminal
+       is caught. However, there is very little variability in Seasons 3 and 
+       5."
+    }
+    
+    else if(input$buzz_op == "Criminal") {
+      "Whenever 'criminal' is said more than 4 times in an episode, the criminal
+       is always caught."
     }
     
   })
@@ -860,27 +955,28 @@ server <- function(input, output) {
     }
     
     else if(input$crim_op == "Copycat Killer") {
-      "In Season 1, there was only one cop killer, and they evaded capture. For
+      "In Season 1, there was only one copycat killer, and they evaded capture. For
        all other seasons, copycat killers are more likely to be caught
        than evade capture."
     }
     
     else if(input$crim_op == "Family Annihilator") {
-      "Family annihilators are more likely to be caught than escape; however
-       in Season 2, there was only one Family Annihilator, and they evaded
-       capture."
+      "In general, family annihilators are more likely to be caught than evade
+       capture; however in Season 2, there was only one family annihilator, 
+       and they evaded capture."
     }
     
     else if(input$crim_op == "Kidnapper") {
       "In general, kidnappers are more likely to be caught than evade capture.
-      The chance of being caught seems particulary high in Seasons 3, 4, and 5
-       whereas with Season 2, there was an almost 50-50 shot of being caught."
+       The chance of being caught seems particulary high in Seasons 3, 4, and 5
+       whereas with Season 2, there was an almost 50-50 shot of being caught
+       or evading capture."
     }
     
     else if(input$crim_op == "Proxy Killer") {
-      "In Seasons 2, 3, and 5, proxy killers are more likely to be caught. In
-       Season 1, there was only one proxy killer, and they evaded capture. In
-       Season 4, there were no proxy killers."
+      "In Seasons 2, 3, and 5, proxy killers are more likely to be caught than
+       evade capture. In Season 1, there was only one proxy killer, and they 
+       evaded capture. In Season 4, there were no proxy killers."
     }
     
     else if(input$crim_op == "Robber") {
@@ -897,7 +993,8 @@ server <- function(input, output) {
     
     else if(input$crim_op == "Serial Rapist") {
       "In Seasons 1-4, serial rapists are more likely to be caught than not;
-       however, in Season 5, there was a 50-50 chance of being caught."
+       however, in Season 5, there was a 50-50 chance of being caught or
+       evading capture."
     }
     
     else if(input$crim_op == "Spree Killer") {
@@ -969,10 +1066,10 @@ server <- function(input, output) {
       "In this regression table, all character names are being compared with 
       Aaron Hotchner, whose name represents the reference group. A positive 
       regression coefficient means that with every additional time the 
-      character’s name is said, the criminal is that much more likely to be 
+      character’s name is said, the criminal is more likely to be 
       caught compared to when Hotch’s name is said. A negative coefficient 
       means that with every additional time the character’s name is said, the
-      criminal is that much less likely to be caught compared to when Hotch’s 
+      criminal is less likely to be caught compared to when Hotch’s 
       name is said. Here we see that when Rossi, Prentiss, Garcia, or Reid’s 
       names are said, the criminal is more likely to be caught compared to 
       when Hotch’s name is said whereas the opposite can be said about when 
@@ -987,13 +1084,13 @@ server <- function(input, output) {
       "In this regression table, all buzzwords are being compared to the word 
       ‘abducted’, which represents the reference group. A positive regression 
       coefficient means that with every additional time the word is said, the
-      criminal is that much more likely to be caught compared to when 
+      criminal is more likely to be caught compared to when 
       ‘abducted’ is said. A negative coefficient means that with every 
-      additional time the word is said, the criminal is that much less likely 
+      additional time the word is said, the criminal is less likely 
       to be caught compared to when ‘abducted’ is said. Here we say that 
       ‘cannibal’, ‘con’, ‘homicidal’, ‘kidnapper’, ‘pedophile’, ‘poison’, 
       ‘proxy’, ‘sadism’, ‘souvenir’, ‘stalker’, ‘thrill’, ‘trophy’, and ‘unsub’
-      have positive coefficients, meaning when these words are said the 
+      have positive coefficients, meaning when these words are said more the 
       criminal is more likely to be caught whereas the opposite can be said 
       about the other buzzwords since they have negative regression 
       coefficients. However, it is important to note that the only 
@@ -1008,9 +1105,9 @@ server <- function(input, output) {
       and the type of killers, focusing only on the top 10 killer types. All of
       the killer types in the table are being compared to cop killers, who 
       serve as the reference group. A positive regression coefficient means 
-      that a criminal in that category is that much more likely to be caught 
+      that a criminal in that category is more likely to be caught 
       than a cop killer whereas a negative coefficient means that a criminal in
-      that category is that much less likely to be caught than a cop killer. 
+      that category is less likely to be caught than a cop killer. 
       Only family annihilators and spree killers have positive coefficients, 
       meaning that criminals of these types are more likely to be caught than 
       cop killers whereas the opposite is true for the rest of the listed 

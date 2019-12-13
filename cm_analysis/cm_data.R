@@ -42,6 +42,33 @@ cm_words_bau <- cm_words %>%
 cm_words_buzz <- cm_words %>% 
   filter(word %in% buzzwords)
 
+# Combine all the criminal type columns into one and get rid of missing values
+# so I can look at all the criminal types that appear instead of having to look
+# at the five different categories per episode
+
+cm_type <- cm_season %>% 
+  select(episode, season, 
+         criminal_type_1, 
+         criminal_type_2, 
+         criminal_type_3, 
+         criminal_type_4, 
+         criminal_type_5,
+         caught) %>% 
+  pivot_longer(c(criminal_type_1, 
+                 criminal_type_2, 
+                 criminal_type_3, 
+                 criminal_type_4, 
+                 criminal_type_5)) %>% 
+  drop_na()
+
+# Write out data frames for easier use later
+
+write_rds(cm_words_bau, "./cm_analysis/objects/cm_words_bau.rds")
+
+write_rds(cm_words_buzz, "./cm_analysis/objects/cm_words_buzz.rds")
+
+write_rds(cm_type, "./cm_analysis/objects/cm_type.rds")
+
 #### CHARACTER NAMES ####
 
 # Create a plot of the frequency of which character names are said in the first
@@ -197,25 +224,6 @@ cm_gender_season <- cm_season %>%
        subtitle = "Based on the first five seasons of Criminal Minds")
 
 #### CRIMINAL TYPE ####
-
-# Combine all the criminal type columns into one and get rid of missing values
-# so I can look at all the criminal types that appear instead of having to look
-# at the five different categories per episode
-
-cm_type <- cm_season %>% 
-  select(episode, season, 
-         criminal_type_1, 
-         criminal_type_2, 
-         criminal_type_3, 
-         criminal_type_4, 
-         criminal_type_5,
-         caught) %>% 
-  pivot_longer(c(criminal_type_1, 
-                 criminal_type_2, 
-                 criminal_type_3, 
-                 criminal_type_4, 
-                 criminal_type_5)) %>% 
-  drop_na()
 
 # Create plots that show how common different criminal types are across the
 # first five seasons, reordering by frequency, hiding the legend because it's

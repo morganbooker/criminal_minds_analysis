@@ -1,54 +1,21 @@
 
+#### LIBRARIES ####
+
 # Load in necessary libraries
 
 library(tidyverse)
 library(gt)
 library(moderndive)
 
-# Read in objects
+#### DATA FRAMES ####
 
-read_rds("./cm_analysis/objects/cm_season.rds")
+# Read in data frames
 
-read_rds("./cm_analysis/objects/cm_words.rds")
+cm_words_bau <- read_rds("./objects/cm_words_bau.rds")
 
-# Mutate the words so that all versions of a character's name (first name, last
-# name, nickname) all count as one word so it's easier to count the aggregate of
-# character name appearance instead of counting each separate part of the name
-# individually
+cm_words_buzz <- read_rds("./objects/cm_words_buzz.rds")
 
-cm_words_bau <- cm_words %>% 
-  filter(word %in% bau) %>% 
-  mutate(word = case_when(
-    word == "spencer" | word == "spence" | word == "reid" ~ "Spencer Reid",
-    word == "derek" | word == "morgan" ~ "Derek Morgan",
-    word == "aaron" | word == "hotch" | word == "hotchner" ~ "Aaron Hotchner",
-    word == "david" | word == "dave" | word == "rossi" ~ "David Rossi",
-    word == "jason" | word == "gideon" ~ "Jason Gideon",
-    word == "emily" | word == "prentiss" ~ "Emily Prentiss",
-    word == "jennifer" | word == "jj" | word == "jareau" ~ "Jennifer Jareau",
-    word == "penelope" | word == "garcia" ~ "Penelope Garcia",
-    word == "elle" | word == "greenaway" ~ "Elle Greenaway"
-  ))
-
-# Filter words to only look at the buzzwords
-
-cm_words_buzz <- cm_words %>% 
-  filter(word %in% buzzwords)
-
-cm_type <- cm_season %>% 
-  select(episode, season, 
-         criminal_type_1, 
-         criminal_type_2, 
-         criminal_type_3, 
-         criminal_type_4, 
-         criminal_type_5,
-         caught) %>% 
-  pivot_longer(c(criminal_type_1, 
-                 criminal_type_2, 
-                 criminal_type_3, 
-                 criminal_type_4, 
-                 criminal_type_5)) %>% 
-  drop_na()
+cm_type <- read_rds("./objects/cm_type.rds")
 
 # Keep only top 10 killer types
 
@@ -63,6 +30,8 @@ cm_type_regression <- cm_type %>%
                       "serial rapist",
                       "spree killer",
                       "stalker"))
+
+#### CONVERT CAUGHT TO DUMMY VARIABLE ####
 
 # Modify caught so it is a numeric binary dummy variable and drop NAs. Group
 # by season for analysis.
@@ -93,6 +62,8 @@ mod_data_type <- cm_type_regression %>%
   caught = as.numeric(caught)) %>% 
   drop_na(caught) %>% 
   group_by(season)
+
+#### CHARACTER NAME REGRESSION ####
 
 # Fit a regression model of character names on caught
 
@@ -159,8 +130,9 @@ mod_table <- mod %>%
   
   tab_options(table.background.color = "lightskyblue")
 
+#### BUZZWORD REGRESSION ####
 
-# Fit a regression model of character names on caught
+# Fit a regression model of buzzwords on caught
 
 mod_buzz <- lm(caught ~ word, data = mod_data_buzz)
 
@@ -255,7 +227,9 @@ mod_table_buzz <- mod_buzz %>%
   
   tab_options(table.background.color = "lightskyblue")
 
-# Fit a regression model of character names on caught
+#### CRIMINAL TYPE REGRESSION ####
+
+# Fit a regression model of criminal types on caught
 
 mod_type <- lm(caught ~ value, data = mod_data_type)
 
@@ -312,7 +286,8 @@ mod_table_type <- mod_type %>%
   
   tab_header(title = "Examining the Relationship between\nCriminal Type 
                       Frequency and Criminal Capture",
-             subtitle = "Based on the top 10 killer types in the first five seasons of Criminal Minds") %>% 
+             subtitle = "Based on the top 10 killer types in the first 
+                         five seasons of Criminal Minds") %>% 
   
   # Round all the values to 3 decimal points
   
@@ -322,6 +297,7 @@ mod_table_type <- mod_type %>%
   
   tab_options(table.background.color = "lightskyblue")
 
+#### WRITE OUT TABLES ####
 
 # Write out objects 
 

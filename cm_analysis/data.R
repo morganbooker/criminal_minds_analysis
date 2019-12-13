@@ -127,7 +127,8 @@ buzzwords <- c("unsub", "suspect", "murder", "criminal",
 #### CREATE DATA FRAMES ####
 
 # Separate each script into individual words, only include pre-selected
-# buzzwords. These buzzwords are based off my knowledge of the show.
+# buzzwords and character names. These buzzwords are based off my knowledge of
+# the show.
 
 cm_words <- cm_joint %>% 
   unnest_tokens(word, text) %>% 

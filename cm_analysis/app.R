@@ -24,99 +24,52 @@ library(shinyWidgets)
 #### READ IN DATA FROM SCRIPTS ####
 
 cm_words <- read_rds("./objects/cm_words.rds")
-
 cm_name <- read_rds("./objects/cm_name.rds")
-
 cm_name_season <- read_rds("./objects/cm_name_season.rds")
-
 cm_buzz <- read_rds("./objects/cm_buzz.rds")
-
 cm_buzz_season <- read_rds("./objects/cm_buzz_season.rds")
-
 cm_caught <- read_rds("./objects/cm_caught.rds")
-
 cm_caught_season <- read_rds("./objects/cm_caught_season.rds")
-
 cm_gender <- read_rds("./objects/cm_gender.rds")
-
 cm_gender_season <- read_rds("./objects/cm_gender_season.rds")
-
 cm_crim <- read_rds("./objects/cm_crim.rds")
-
 cm_crim_season <- read_rds("./objects/cm_crim_season.rds")
-
 reid <- read_rds("./objects/reid.rds")
-
 rossi <- read_rds("./objects/rossi.rds")
-
 hotch <- read_rds("./objects/hotch.rds")
-
 jj <- read_rds("./objects/jj.rds")
-
 morgan <- read_rds("./objects/morgan.rds")
-
 prentiss <- read_rds("./objects/prentiss.rds")
-
 garcia <- read_rds("./objects/garcia.rds")
-
 gideon <- read_rds("./objects/gideon.rds")
-
 greenaway <- read_rds("./objects/greenaway.rds")
-
 unsub <- read_rds("./objects/unsub.rds")
-
 kill <- read_rds("./objects/kill.rds")
-
 victim <- read_rds("./objects/victim.rds")
-
 killer <- read_rds("./objects/killer.rds")
-
 profile <- read_rds("./objects/profile.rds")
-
 murder <- read_rds("./objects/murder.rds")
-
 serial <- read_rds("./objects/serial.rds")
-
 blood <- read_rds("./objects/blood.rds")
-
 suspect <- read_rds("./objects/suspect.rds")
-
 criminal <- read_rds("./objects/criminal.rds")
-
 serial_killer <- read_rds("./objects/serial_killer.rds")
-
 kidnapper <- read_rds("./objects/kidnapper.rds")
-
 spree_killer <- read_rds("./objects/spree_killer.rds")
-
 stalker <- read_rds("./objects/stalker.rds")
-
 cop_killer <- read_rds("./objects/cop_killer.rds")
-
 serial_rapist <- read_rds("./objects/serial_rapist.rds")
-
 copycat <- read_rds("./objects/copycat.rds")
-
 robber <- read_rds("./objects/robber.rds")
-
 family_a <- read_rds("./objects/family_a.rds")
-
 proxy_killer <- read_rds("./objects/proxy_killer.rds")
-
 alive_1 <- read_rds("./objects/alive_1.rds")
-
 alive_2 <- read_rds("./objects/alive_2.rds")
-
 alive_3 <- read_rds("./objects/alive_3.rds")
-
 alive_4 <- read_rds("./objects/alive_4.rds")
-
 alive_5 <- read_rds("./objects/alive_5.rds")
-
 mod_table <- read_rds("./objects/mod_table.rds")
-
 mod_table_buzz <- read_rds("./objects/mod_table_buzz.rds")
-
 mod_table_type <- read_rds("./objects/mod_table_type.rds")
 
 #### WORD CLOUD #### 
@@ -218,9 +171,11 @@ regression_options <- c("Characters",
 #### UI ####
 
 ui <- navbarPage(
-    "Criminal Minds Analysis",
+    "Catching Criminals: A Criminal Minds Analysis",
     
     theme = shinytheme("cyborg"),
+    
+    #### GENERAL OVERVIEW TAB ####
     
     tabPanel("General Overview",
              
@@ -247,7 +202,6 @@ ui <- navbarPage(
                             plotOutput("cm_overview")
                             
                           )
-                          
                         )),
                
                tabPanel("By Season",
@@ -277,12 +231,11 @@ ui <- navbarPage(
                             textOutput("cm_text_season")
                             
                           )
-                          
                         ))
-               
              ),
-             
              ),
+    
+    #### WORD CLOUD TAB ####
     
     tabPanel("Word Cloud",
              
@@ -337,10 +290,10 @@ ui <- navbarPage(
                    plotOutput("plot")
                    
                  )
-                 
                )
-               
              )),
+    
+    #### CRIMINAL ANALYSIS TAB ####
     
     tabPanel("Criminal Analysis",
              
@@ -374,7 +327,6 @@ ui <- navbarPage(
                             textOutput("character_text")
                             
                           )
-                          
                         )),
                
                tabPanel("Buzzwords",
@@ -407,7 +359,6 @@ ui <- navbarPage(
                             textOutput("buzz_text")
                             
                           )
-                          
                         )),
                
                tabPanel("Criminal Type",
@@ -440,7 +391,6 @@ ui <- navbarPage(
                             textOutput("crim_text")
                             
                           )
-                          
                         )),
                
                tabPanel("Is the Criminal Alive in the End?",
@@ -489,12 +439,11 @@ ui <- navbarPage(
                                in custody or was killed in custody.")
                             
                           )
-                          
                         ))
-               
              ),
-             
     ),
+    
+    #### REGRESSION TAB ####
     
     tabPanel("Regression",
              
@@ -524,10 +473,10 @@ ui <- navbarPage(
                  textOutput("regression_text")
                  
                )
-               
              )
-      
     ),
+    
+    #### ABOUT TAB ####
     
     tabPanel("About",
              
@@ -555,12 +504,14 @@ ui <- navbarPage(
                imageOutput("cast", width = "100%", height = "100%")
                
              ))
-    
 )
+
 
 #### SERVER ####
 
 server <- function(input, output) {
+  
+  #### GENERAL OVERVIEW OUPUT ####
   
   # Create conditions to display the general overview plots where different
   # plots are shown depending on what the input is
@@ -604,10 +555,9 @@ server <- function(input, output) {
     else if(input$general_op_season == "Criminal Types") {
       cm_crim_season
     }
-    
   })
   
-  # Display disclaimer
+  # Display disclaimers
   
   output$cm_text_season <- renderText({
     
@@ -632,8 +582,9 @@ server <- function(input, output) {
       "Criminal types were only kept in this chart if there were more than
        2 of that type of criminal in at least 1 of the 5 seasons."
     }
-    
   })
+  
+  #### WORDCLOUD OUTPUT ####
 
   # Create the wordcloud ouput here and make it interactive
   
@@ -653,9 +604,7 @@ server <- function(input, output) {
         getTermMatrix(input$selection)
         
       })
-      
     })
-    
   })
   
   wordcloud_rep <- repeatable(wordcloud)
@@ -674,6 +623,7 @@ server <- function(input, output) {
                   colors = brewer.pal(8, "RdYlBu"))
   })
   
+  #### CHARACTER PLOTS ####
   # Create conditions to display the character name plots where different
   # plots are shown depending on what the input is
   
@@ -706,7 +656,6 @@ server <- function(input, output) {
     else if(input$character_op == "David Rossi") {
       rossi
     }
-    
   })
   
   # Create conditions to describe character plots
@@ -803,9 +752,10 @@ server <- function(input, output) {
        always caught, suggesting that the more often we hear his name, the
        more likely the criminal will be caught."
     }
-    
   })
    
+  #### BUZZWORD PLOTS ####
+  
   # Create conditions to display the buzzword plots where different
   # plots are shown depending on what the input is
   
@@ -841,7 +791,6 @@ server <- function(input, output) {
     else if(input$buzz_op == "Criminal") {
       criminal
     }
-    
   })
   
   # Create conditions to describe the buzzword plots
@@ -898,8 +847,9 @@ server <- function(input, output) {
       "Whenever 'criminal' is said more than 4 times in an episode, the criminal
        is always caught."
     }
-    
   })
+  
+  #### CRIMINAL TYPE PLOTS ####
   
   # Create conditions to display the criminal type plots where different
   # plots are shown depending on what the input is
@@ -936,7 +886,6 @@ server <- function(input, output) {
     else if(input$crim_op == "Stalker") {
       stalker
     }
-    
   })
   
   # Create conditions to display the criminal type plot descriptions
@@ -997,10 +946,11 @@ server <- function(input, output) {
        we see this trend across all of the top 10 criminal types in a season
        where there were criminals of this type to be caught and evade capture."
     }
-    
   })
   
-  # Create conditions to display the alive vs. dead plots where different
+  #### LIFE STATUS PLOTS ####
+  
+  # Create conditions to display the life status plots where different
   # plots are shown depending on what the input is
   
   output$alive_plot <- renderPlot({
@@ -1020,8 +970,9 @@ server <- function(input, output) {
     else if(input$alive_op == "Season 5") {
       alive_5
     }
-    
   })
+  
+  #### REGRESSION OUTPUT ####
   
   # Create conditions to display gt table output
   
@@ -1036,8 +987,9 @@ server <- function(input, output) {
     else if(input$regression_op == "Criminal Type") {
       mod_table_type
     }
-
   })
+  
+  # Create conditions to have table descriptions appear
   
   output$regression_text <- renderText({
     
@@ -1089,10 +1041,11 @@ server <- function(input, output) {
       sufficient evidence to believe that criminal type influences the 
       likelihood a criminal will be caught."
     }
-    
   })
   
-  # Display images in about page
+  #### ABOUT PAGE IMAGES ####
+  
+  # Display images in about page, centering them
   
   output$logo <- renderImage({
     
@@ -1111,8 +1064,6 @@ server <- function(input, output) {
          style = "display: block; margin-left: auto; margin-right: auto;")},
     deleteFile = FALSE
   )
-
-  
 }
 
 

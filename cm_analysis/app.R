@@ -266,6 +266,8 @@ ui <- navbarPage(
                             
                             plotOutput("cm_overview_season"),
                             
+                            br(),
+                            
                             # Place disclaimer text here
                             
                             textOutput("cm_text_season")
@@ -356,6 +358,8 @@ ui <- navbarPage(
                             
                             plotOutput("character_plot"),
                             
+                            br(), 
+                            
                             # Place plot description here
                             
                             textOutput("character_text")
@@ -414,6 +418,8 @@ ui <- navbarPage(
                             
                             plotOutput("crim_plot"),
                             
+                            br(), 
+                            
                             # Place plot description here
                             
                             textOutput("crim_text")
@@ -442,6 +448,8 @@ ui <- navbarPage(
                             # Place plot output here
                             
                             plotOutput("alive_plot"),
+                            
+                            br(),
                             
                             # Place plot clarification here
                             
@@ -488,7 +496,11 @@ ui <- navbarPage(
                
                mainPanel(
                  
-                 gt_output("regression_table")
+                 gt_output("regression_table"),
+                 
+                 br(),
+                 
+                 textOutput("regression_text")
                  
                )
                
@@ -939,6 +951,48 @@ server <- function(input, output) {
     
     else if(input$regression_op == "Buzzwords") {
       mod_table_buzz
+    }
+    
+  })
+  
+  output$regression_text <- renderText({
+    
+    if(input$regression_op == "Characters") {
+      
+      "In this regression table, all character names are being compared with 
+      Aaron Hotchner, whose name represents the reference group. A positive 
+      regression coefficient means that with every additional time the 
+      character’s name is said, the criminal is that much more likely to be 
+      caught compared to when Hotch’s name is said. A negative coefficient 
+      means that with every additional time the character’s name is said, the
+      criminal is that much less likely to be caught compared to when Hotch’s 
+      name is said. Here we see that when Rossi, Prentiss, Garcia, or Reid’s 
+      names are said, the criminal is more likely to be caught compared to 
+      when Hotch’s name is said whereas the opposite can be said about when 
+      Morgan, Greenaway, Gideon, or JJ’s names are said. However, it is 
+      important to note that the only statistically significant relationships 
+      here are for Rossi, Greenaway, and Gideon’s names."
+      
+    }
+    
+    else if(input$regression_op == "Buzzwords") {
+      
+      "In this regression table, all buzzwords are being compared to the word 
+      ‘abducted’, which represents the reference group. A positive regression 
+      coefficients means that with every additional time the word is said, the
+      criminal is that much more likely to be caught compared to when 
+      ‘abducted’ is said. A negative coefficient means that with every 
+      additional time the word is said, the criminal is that much less likely 
+      to be caught compared to when ‘abducted’ is said. Here we say that 
+      ‘cannibal’, ‘con’, ‘homicidal’, ‘kidnapper’, ‘pedophile’, ‘poison’, 
+      ‘proxy’, ‘sadism’, ‘souvenir’, ‘stalker’, ‘thrill’, ‘trophy’, and ‘unsub’
+      have positive coefficients, meaning when these words are said the 
+      criminal is more likely to be caught whereas the opposite can be said 
+      about the other buzzwords since they have negative regression 
+      coefficients. However, it is important to note that the only 
+      statistically significant relationships here are for the words ‘bomber’,
+      ‘copycat’, ‘criminals’, ‘hitman’, ‘homicide’, and ‘terrorist’."
+      
     }
     
   })

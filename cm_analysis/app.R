@@ -116,6 +116,8 @@ mod_table <- read_rds("./objects/mod_table.rds")
 
 mod_table_buzz <- read_rds("./objects/mod_table_buzz.rds")
 
+mod_table_type <- read_rds("./objects/mod_table_type.rds")
+
 #### WORD CLOUD #### 
 
 # Create word cloud (based on shiny website tutorial) and create column for word
@@ -209,7 +211,8 @@ alive_options <- c("Season 1",
                    "Season 5")
 
 regression_options <- c("Characters",
-                        "Buzzwords")
+                        "Buzzwords",
+                        "Criminal Type")
 
 #### SHINY APP ####
 
@@ -953,6 +956,10 @@ server <- function(input, output) {
       mod_table_buzz
     }
     
+    else if(input$regression_op == "Criminal Type") {
+      mod_table_type
+    }
+    
   })
   
   output$regression_text <- renderText({
@@ -979,7 +986,7 @@ server <- function(input, output) {
       
       "In this regression table, all buzzwords are being compared to the word 
       ‘abducted’, which represents the reference group. A positive regression 
-      coefficients means that with every additional time the word is said, the
+      coefficient means that with every additional time the word is said, the
       criminal is that much more likely to be caught compared to when 
       ‘abducted’ is said. A negative coefficient means that with every 
       additional time the word is said, the criminal is that much less likely 
@@ -992,6 +999,25 @@ server <- function(input, output) {
       coefficients. However, it is important to note that the only 
       statistically significant relationships here are for the words ‘bomber’,
       ‘copycat’, ‘criminals’, ‘hitman’, ‘homicide’, and ‘terrorist’."
+      
+    }
+    
+    else if(input$regression_op == "Criminal Type") {
+      
+      "This regression table examines the relationship between criminal capture
+      and the type of killers, focusing only on the top 10 killer types. All of
+      the killer types in the table are being compared to cop killers, who 
+      serve as the reference group. A positive regression coefficient means 
+      that a criminal in that category is that much more likely to be caught 
+      than a cop killer whereas a negative coefficient means that a criminal in
+      that category is that much less likely to be caught than a cop killer. 
+      Only family annihilators and spree killers have positive coefficients, 
+      meaning that criminals of these types are more likely to be caught than 
+      cop killers whereas the opposite is true for the rest of the listed 
+      killers. Interestingly enough, none of these relationships are 
+      statistically significant, so based on this regression we don’t have
+      sufficient evidence to believe that criminal type influences the 
+      likelihood a criminal will be caught."
       
     }
     

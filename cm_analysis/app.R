@@ -11,6 +11,7 @@ library(gt)
 library(rvest)
 library(janitor)
 library(memoise)
+library(vembedr)
 library(tidytext)
 library(markdown)
 library(wordcloud)
@@ -214,7 +215,7 @@ regression_options <- c("Characters",
                         "Buzzwords",
                         "Criminal Type")
 
-#### SHINY APP ####
+#### UI ####
 
 ui <- navbarPage(
     "Criminal Minds Analysis",
@@ -501,6 +502,8 @@ ui <- navbarPage(
                
                sidebarPanel(
                  
+                 # Create input selector
+                 
                  selectInput("regression_op",
                              "Area of Focus",
                              choices = regression_options,
@@ -510,9 +513,13 @@ ui <- navbarPage(
                
                mainPanel(
                  
+                 # Display regression table output
+                 
                  gt_output("regression_table"),
                  
                  br(),
+                 
+                 # Display table descriptions
                  
                  textOutput("regression_text")
                  
@@ -526,13 +533,32 @@ ui <- navbarPage(
              
              fluidPage(
                
+               # Place image above about page content
+               
+               imageOutput("logo", width = "100%", height = "100%"),
+               
+               br(),
+               
+               # Embed youtube video and center it
+               
+               h3("Recap Video"),
+               
+               embed_url("https://www.youtube.com/watch?v=7PyCC9Yzn0k&feature=youtu.be") %>% 
+                 div(align = "center"),
+               
                # This allows me to include my Rmd about page on my shiny app
                
-               withMathJax(includeMarkdown("about.Rmd"))
+               withMathJax(includeMarkdown("about.Rmd")),
+               
+               # Place image below about page content
+               
+               imageOutput("cast", width = "100%", height = "100%")
                
              ))
     
 )
+
+#### SERVER ####
 
 server <- function(input, output) {
   
@@ -566,19 +592,15 @@ server <- function(input, output) {
     if(input$general_op_season == "Character Names") {
       cm_name_season
     }
-    
     else if(input$general_op_season == "Buzzwords") {
       cm_buzz_season
     }
-    
     else if(input$general_op_season == "Criminal Caught?") {
       cm_caught_season
     }
-    
     else if(input$general_op_season == "Criminal Gender") {
       cm_gender_season
     }
-    
     else if(input$general_op_season == "Criminal Types") {
       cm_crim_season
     }
@@ -590,7 +612,6 @@ server <- function(input, output) {
   output$cm_text_season <- renderText({
     
     if(input$general_op_season == "Character Names") {
-      
       "Disclaimer: In Seasons 1 and 2, there are suspects named Emily and
        David, which is why these character names show up in the count before
        the characters ever appear on the show. On the show, the writers 
@@ -598,28 +619,18 @@ server <- function(input, output) {
        characters, so once Emily Prentiss and David Rossi became series 
        regulars in Seasons 2 and 3 respectively, the chart accurately 
        reflects the frequency of their names being spoken."
-      
     }
-    
     else if(input$general_op_season == "Buzzwords") {
-      
       "Buzzwords were only kept in this chart if they were said more than
        15 times in at least 1 of the 5 seasons."
-      
     }
-    
     else if(input$general_op_season == "Criminal Gender") {
-      
       "If a criminal is classified as 'both', this means that there were
        at least two criminals, one of whom was female, one of whom was male."
-      
     }
-    
     else if(input$general_op_season == "Criminal Types") {
-      
       "Criminal types were only kept in this chart if there were more than
        2 of that type of criminal in at least 1 of the 5 seasons."
-      
     }
     
   })
@@ -671,35 +682,27 @@ server <- function(input, output) {
     if(input$character_op == "Penelope Garcia") {
       garcia
     }
-    
     else if(input$character_op == "Jason Gideon") {
       gideon
     }
-    
     else if(input$character_op == "Elle Greenaway") {
       greenaway
     }
-    
     else if(input$character_op == "Aaron Hotchner") {
       hotch
     }
-    
     else if(input$character_op == "Jennifer Jareau") {
       jj
     }
-    
     else if(input$character_op == "Derek Morgan") {
       morgan
     }
-    
     else if(input$character_op == "Emily Prentiss") {
       prentiss
     }
-    
     else if(input$character_op == "Spencer Reid") {
       reid
     }
-    
     else if(input$character_op == "David Rossi") {
       rossi
     }
@@ -720,7 +723,6 @@ server <- function(input, output) {
        and perhaps that would contribute to them not being able to catch the
        criminal."
     }
-    
     else if(input$character_op == "Jason Gideon") {
       "Senior Supervisory Special Agent Jason Gideon was the BAU's best
        criminal profiler in his time on the show. He retired in the first
@@ -732,7 +734,6 @@ server <- function(input, output) {
        however, there is more variability in whether or not the criminal
        is captured."
     }
-    
     else if(input$character_op == "Elle Greenaway") {
       "Supervisory Special Agent Elle Greenaway was an agent with in the BAU
        who specialized in sexual offense crimes. She left the BAU when she
@@ -741,7 +742,6 @@ server <- function(input, output) {
        Season 3. There does not appear to be a consistent pattern that emerges
        for the frequency of her name and criminal capture."
     }
-    
     else if(input$character_op == "Aaron Hotchner") {
       "Supervisory Special Agent Aaron 'Hotch' Hotchner is the BAU's Unit 
        Chief, the leader of the team. He is very serious and focused on
@@ -756,7 +756,6 @@ server <- function(input, output) {
        end. It is also worth noting that his name is the one said most
        frequently across all five seasons."
     }
-    
     else if(input$character_op == "Jennifer Jareau") {
       "Jennifer 'JJ' Jareau is the BAU's Communications Liaison who serves as
        the team's point of contact with the police and media officials. Her
@@ -768,7 +767,6 @@ server <- function(input, output) {
        capture across all 5 seasons; however, in Seasons 4 and 5, every time
        her name is said more than 7 times, the criminal is caught."
     }
-    
     else if(input$character_op == "Derek Morgan") {
       "Supervisory Special Agent Derek Morgan is a BAU agent who specializes in
        explosives, fixations, and obsessive behaviors. His name is said over 60
@@ -777,7 +775,6 @@ server <- function(input, output) {
        for frequency of Morgan's name and criminal capture; however, the
        outlier episode from Season 2 really skews the overall distribution."
     }
-    
     else if(input$character_op == "Emily Prentiss") {
       "Supervisory Special Agent Emily Prentiss is a BAU agent who replaced
        Elle Greenaway in Season 2. She is fluent in multiple languages, which
@@ -785,7 +782,6 @@ server <- function(input, output) {
        not fluent in English. When her name is said more than 12 times in an
        episode, the criminal tends to be caught in the end."
     }
-    
     else if(input$character_op == "Spencer Reid") {
       "Dr. Spencer Reid is a Supervisory Special Agent in the BAU and is a 
        certified genius with an eidetic memory. Reid is the youngest member
@@ -799,7 +795,6 @@ server <- function(input, output) {
        that the more often we hear his name, the more likely we will see
        the criminal get caught."
     }
-    
     else if(input$character_op == "David Rossi") {
       "Senior Supervisory Special Agent David Rossi is one of the founders of
        the BAU. He retired early from the FBI in 1997, but left retirement and
@@ -819,39 +814,30 @@ server <- function(input, output) {
     if(input$buzz_op == "Unsub") {
       unsub
     }
-    
     else if(input$buzz_op == "Kill") {
       kill
     }
-    
     else if(input$buzz_op == "Victim") {
       victim
     }
-    
     else if(input$buzz_op == "Killer") {
       killer
     }
-    
     else if(input$buzz_op == "Profile") {
       profile
     }
-    
     else if(input$buzz_op == "Murder") {
       murder
     }
-    
     else if(input$buzz_op == "Serial") {
       serial
     }
-    
     else if(input$buzz_op == "Blood") {
       blood
     }
-    
     else if(input$buzz_op == "Suspect") {
       suspect
     }
-    
     else if(input$buzz_op == "Criminal") {
       criminal
     }
@@ -868,55 +854,46 @@ server <- function(input, output) {
        is always caught. However, it's worth noting that this word tends
        to have more within-season variability than most other buzzwords."
     }
-    
     else if(input$buzz_op == "Kill") {
       "There is a considerable amount of variation in the frequency of 'kill'
        being said in an episode and criminal capture. There does not appear
        to be any consistent pattern here."
     }
-    
     else if(input$buzz_op == "Victim") {
       "There is a considerable amount of variaibility in the frequency of
        'victim' and criminal capture within each season. There is no clear
        pattern here except for in Season 5 where the more often 'victim' is
        said, the more often the criminal is caught."
     }
-    
     else if(input$buzz_op == "Killer") {
       "Except for one episode in Season 1, whenever 'killer' is said more than
        7 times in an episode, the criminal is always caught."
     }
-    
     else if(input$buzz_op == "Profile") {
       "There does not appear to be a consistent pattern across all 5 seasons.
        However, in Season 3, the more often 'profile' is said, the more likely
        the criminal evades capture, which is an interesting find."
     }
-    
     else if(input$buzz_op == "Murder") {
       "There does not appear to be a consistent pattern across all 5 seasons;
        however, in Seasons 2, 4, and 5, when 'murder' is said more than 3
        times, the criminal is always caught."
     }
-    
     else if(input$buzz_op == "Serial") {
       "In Seasons 1 and 2, the more often 'serial' is said and in the episode
        with the highest frequency of the word, the criminal evades capture.
        Interestingly, we see the exact opposite relationship in Seasons 3,
        4, and 5."
     }
-    
     else if(input$buzz_op == "Blood") {
       "Whenever 'blood' is said more than 7 times in an episode, the criminal
        is always caught."
     }
-    
     else if(input$buzz_op == "Suspect") {
       "Whenever 'suspect' is said more than 5 times in an episode, the criminal
        is caught. However, there is very little variability in Seasons 3 and 
        5."
     }
-    
     else if(input$buzz_op == "Criminal") {
       "Whenever 'criminal' is said more than 4 times in an episode, the criminal
        is always caught."
@@ -932,39 +909,30 @@ server <- function(input, output) {
     if(input$crim_op == "Cop Killer") {
       cop_killer
     }
-    
     else if(input$crim_op == "Copycat Killer") {
       copycat
     }
-    
     else if(input$crim_op == "Family Annihilator") {
       family_a
     }
-    
     else if(input$crim_op == "Kidnapper") {
       kidnapper
     }
-    
     else if(input$crim_op == "Proxy Killer") {
       proxy_killer
     }
-    
     else if(input$crim_op == "Robber") {
       robber
     }
-    
     else if(input$crim_op == "Serial Killer") {
       serial_killer
     }
-    
     else if(input$crim_op == "Serial Rapist") {
       serial_rapist
     }
-    
     else if(input$crim_op == "Spree Killer") {
       spree_killer
     }
-    
     else if(input$crim_op == "Stalker") {
       stalker
     }
@@ -979,26 +947,22 @@ server <- function(input, output) {
       "In general, it appears that cop killers are more likely to be caught
        than not, with no cop killers escaping in Season 2 or 3."
     }
-    
     else if(input$crim_op == "Copycat Killer") {
       "In Season 1, there was only one copycat killer, and they evaded capture. For
        all other seasons, copycat killers are more likely to be caught
        than evade capture."
     }
-    
     else if(input$crim_op == "Family Annihilator") {
       "In general, family annihilators are more likely to be caught than evade
        capture; however in Season 2, there was only one family annihilator, 
        and they evaded capture."
     }
-    
     else if(input$crim_op == "Kidnapper") {
       "In general, kidnappers are more likely to be caught than evade capture.
        The chance of being caught seems particulary high in Seasons 3, 4, and 5
        whereas with Season 2, there was an almost 50-50 shot of being caught
        or evading capture."
     }
-    
     else if(input$crim_op == "Proxy Killer") {
       "In Seasons 2, 3, and 5, proxy killers are more likely to be caught than
        evade capture. In Season 1, there was only one proxy killer, and they 
@@ -1010,26 +974,22 @@ server <- function(input, output) {
        to be a 50-50 shot of being caught in Season 5, and an almost 50-50 shot
        of being caught in Season 4. Seasons 2 did not have any robbers."
     }
-    
     else if(input$crim_op == "Serial Killer") {
       "Serial killers are more likely to be caught than evade capture with
        Season 4 showing the most extreme version of this trend with the BAU
        catching over 15 serial killers, only letting 2 evade capture."
     }
-    
     else if(input$crim_op == "Serial Rapist") {
       "In Seasons 1-4, serial rapists are more likely to be caught than not;
        however, in Season 5, there was a 50-50 chance of being caught or
        evading capture."
     }
-    
     else if(input$crim_op == "Spree Killer") {
       "Spree killers are more likely to be caught than evade capture across
        all 5 seasons. Season 5 shows the most extreme version of this
        trend with the BAU capturing 10 spree killers, only letting 1 evade
        capture."
     }
-    
     else if(input$crim_op == "Stalker") {
       "In all seasons but Season 2, stalkers are more likely to be caught
        than evade capture. Interestingly enough, in Season 2, stalkers are
@@ -1048,19 +1008,15 @@ server <- function(input, output) {
     if(input$alive_op == "Season 1") {
       alive_1
     }
-    
     else if(input$alive_op == "Season 2") {
       alive_2
     }
-    
     else if(input$alive_op == "Season 3") {
       alive_3
     }
-    
     else if(input$alive_op == "Season 4") {
       alive_4
     }
-    
     else if(input$alive_op == "Season 5") {
       alive_5
     }
@@ -1074,21 +1030,18 @@ server <- function(input, output) {
     if(input$regression_op == "Characters") {
       mod_table
     }
-    
     else if(input$regression_op == "Buzzwords") {
       mod_table_buzz
     }
-    
     else if(input$regression_op == "Criminal Type") {
       mod_table_type
     }
-    
+
   })
   
   output$regression_text <- renderText({
     
     if(input$regression_op == "Characters") {
-      
       "In this regression table, all character names are being compared with 
       Aaron Hotchner, whose name represents the reference group. A positive 
       regression coefficient means that with every additional time the 
@@ -1102,11 +1055,8 @@ server <- function(input, output) {
       Morgan, Greenaway, Gideon, or JJ’s names are said. However, it is 
       important to note that the only statistically significant relationships 
       here are for Rossi, Greenaway, and Gideon’s names."
-      
     }
-    
     else if(input$regression_op == "Buzzwords") {
-      
       "In this regression table, all buzzwords are being compared to the word 
       ‘abducted’, which represents the reference group. A positive regression 
       coefficient means that with every additional time the word is said, the
@@ -1122,11 +1072,8 @@ server <- function(input, output) {
       coefficients. However, it is important to note that the only 
       statistically significant relationships here are for the words ‘bomber’,
       ‘copycat’, ‘criminals’, ‘hitman’, ‘homicide’, and ‘terrorist’."
-      
     }
-    
     else if(input$regression_op == "Criminal Type") {
-      
       "This regression table examines the relationship between criminal capture
       and the type of killers, focusing only on the top 10 killer types. All of
       the killer types in the table are being compared to cop killers, who 
@@ -1141,10 +1088,29 @@ server <- function(input, output) {
       statistically significant, so based on this regression we don’t have
       sufficient evidence to believe that criminal type influences the 
       likelihood a criminal will be caught."
-      
     }
     
   })
+  
+  # Display images in about page
+  
+  output$logo <- renderImage({
+    
+    list(src = "./images/logo_transp.png",
+         height = 200,
+         width = 500,
+         style = "display: block; margin-left: auto; margin-right: auto;")},
+    deleteFile = FALSE
+  )
+  
+  output$cast <- renderImage({
+    
+    list(src = "./images/all_cast.jpg",
+         height = 300,
+         width = 600,
+         style = "display: block; margin-left: auto; margin-right: auto;")},
+    deleteFile = FALSE
+  )
 
   
 }
@@ -1153,7 +1119,3 @@ server <- function(input, output) {
 # Render shiny app
 
 shinyApp(ui, server)
-
-# to do:
-# maybe make bar plots interactive--hover over and you'll see the count
-# create subfolders for rds files since there are a lot

@@ -322,12 +322,17 @@ ui <- navbarPage(
                    
                    sliderInput("max",
                                "Maximum Number of Words:",
-                               min = 1, max = 61, value = 30)
+                               min = 1, max = 61, value = 30),
+                   
+                   p("Note: Only character names and buzzwords are included in the
+                      word cloud.")
+                   
                  ),
                  
                  mainPanel(
                    
                    # Place wordcloud here
+                   
                    plotOutput("plot")
                    
                  )
@@ -593,6 +598,27 @@ server <- function(input, output) {
        characters, so once Emily Prentiss and David Rossi became series 
        regulars in Seasons 2 and 3 respectively, the chart accurately 
        reflects the frequency of their names being spoken."
+      
+    }
+    
+    else if(input$general_op_season == "Buzzwords") {
+      
+      "Buzzwords were only kept in this chart if they were said more than
+       15 times in at least 1 of the 5 seasons."
+      
+    }
+    
+    else if(input$general_op_season == "Criminal Gender") {
+      
+      "If a criminal is classified as 'both', this means that there were
+       at least two criminals, one of whom was female, one of whom was male."
+      
+    }
+    
+    else if(input$general_op_season == "Criminal Types") {
+      
+      "Criminal types were only kept in this chart if there were more than
+       2 of that type of criminal in at least 1 of the 5 seasons."
       
     }
     

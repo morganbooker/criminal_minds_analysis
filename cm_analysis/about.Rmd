@@ -15,27 +15,31 @@ Throughout the fourteen seasons, the BAU team has dealt with a wide variety of c
 
 ### The Recurring Elements
 
-Most episodes of the show feature some important recurring elements, this section will list a few that are relevant to this analysis.
+All episodes of the show feature some important recurring elements, this section will list a few that are relevant to this analysis.
 
-* __The Team__: The key players of the BAU team include: Jason Gideon (Seasons 1-3), David Rossi, Aaron "Hotch" Hotchner (Seasons 1-12), Derek Morgan (Seasons 1-11), Spencer Reid, Emily Prentiss, Jennifer "JJ" Jareau, and Penelope Garcia. Major recurring team members have included: Elle Greenaway (Seasons 1-2).
+* __The Team__: The key players of the BAU team include: Jason Gideon (Seasons 1-3), David Rossi (Seasons 3-Present), Aaron "Hotch" Hotchner (Seasons 1-12), Derek Morgan (Seasons 1-11), Spencer Reid (Seasons 1-Present), Emily Prentiss (Seasons 1-7, 11-Present), Jennifer "JJ" Jareau (Seasons 1-Present), Penelope Garcia (Seasons 1-Present), and Elle Greenaway (Seasons 1-2).
 * __The Capture__: Most episodes feature the capture or death of the suspect.
-* __Buzzwords__: Each episode, there are a lot of key words or phrases that we hear. Some examples include "unsub" (unknown subject), "profile", "serial killer", "sadist", and "trophy".
+* __Buzzwords__: Each episode, there are a lot of key words or phrases that we hear. Some examples include "unsub" (unknown subject), "profile", "serial killer", "sadist", and "trophy". All buzzwords chosen for this analysis are crime-related. Buzzwords were chosen based on my own knowledge, some initial data exploration that showed the most common words, and using information from a Criminal Minds database.
 
 ### The Project
 
-This project is a script analysis of the first five season of Criminal Minds, and has three main aspects to it.
+This project is a script analysis of the first five season of Criminal Minds, and has four main aspects to it.
 
 #### General Overview
 
-The General Overview section of the project aims to give a general overview of the data to show off some cool features found when analyzing the episode and script characteristics of the first five seasons. Some areas of focus include tracking the frequency of key buzzwords and character names over the five seasons, looking at the types of criminals the BAU team faces, how many times the criminal is caught, and the gender of the criminal.
+The General Overview section of the project aims to give a general overview of the data to show off some cool features found when analyzing the episode and script characteristics of the first five seasons. Some areas of focus include tracking the frequency of key buzzwords and character names over the five seasons, looking at the types of criminals the BAU team faces, how many times criminals are caught, and the criminal genders in aggregate and by season.
 
 #### Word Cloud
 
-The Word Cloud section aims to give a more interactive version of word frequency across the first five seasons by allowing explorers of this project to play around with a wordcloud that tracks the frequency of buzzwords and character names throughout the first five seasons.
+The Word Cloud section aims to provide a more interactive version of word frequency across the first five seasons by allowing explorers of this project to play around with a word cloud that tracks the frequency of buzzwords and character names throughout the first five seasons.
 
 #### Criminal Analysis
 
-The Criminal Analysis section aims to look at some of the recurring elements of Criminal Minds episodes explored in previous parts of the project and see how they interact with whether or not the criminal was caught at the end of the episode. For example, are we able to see a clear trend between word frequency and the outcome of the episode? If the word "unsub" is said often in an episode, will a pattern emerge that suggests that the criminal is more likely to be caught? This section aims to tackle questions like these to see if there are any cool trends we can unmask and reveal.
+The Criminal Analysis section aims to look at some of the recurring elements of Criminal Minds episodes explored in previous parts of the project and see how they interact with whether or not the criminal was caught at the end of the episode. For example, are we able to see a clear trend between word frequency and the outcome of the episode? If the word "unsub" is said often in an episode, will a pattern emerge that suggests that the criminal is more likely to be caught? This section aims to tackle questions like these to see if there are any cool trends we can unmask and reveal for character names, buzzwords, life status, and criminal type.
+
+#### Regression
+
+The Regression section of the project aims to examine criminal capture as a function of frequency of character names, frequency of buzzwords, and criminal type to see if there are any statistically significant relationships that will emerge. 
 
 ### The Data
 
@@ -52,4 +56,6 @@ My name is Morgan Booker and I am a senior at Harvard College studying statistic
 ### Special Thanks
 - David Kane and all the wonderful GOV 1005 staff
 - Jeff Davis for creating the amazing show that is the basis of this project
+- The Criminal Minds cast for portraying these awesome characters
 - All the real-life crime fighters making the world a safer place
+- Lacey Hines

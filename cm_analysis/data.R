@@ -1,5 +1,5 @@
 
-#### LIBRAIRES ####
+#### LIBRARIES ####
 
 # Load in necessary libraries
 

@@ -7,6 +7,7 @@ library(shiny)
 library(knitr)
 library(fs)
 library(tm)
+library(gt)
 library(rvest)
 library(janitor)
 library(memoise)
@@ -14,6 +15,7 @@ library(tidytext)
 library(markdown)
 library(wordcloud)
 library(tidyverse)
+library(moderndive)
 library(shinythemes)
 library(RColorBrewer)
 library(shinyWidgets)
@@ -110,6 +112,10 @@ alive_4 <- read_rds("./objects/alive_4.rds")
 
 alive_5 <- read_rds("./objects/alive_5.rds")
 
+mod_table <- read_rds("./objects/mod_table.rds")
+
+mod_table_buzz <- read_rds("./objects/mod_table_buzz.rds")
+
 #### WORD CLOUD #### 
 
 # Create word cloud (based on shiny website tutorial) and create column for word
@@ -202,6 +208,9 @@ alive_options <- c("Season 1",
                    "Season 4",
                    "Season 5")
 
+regression_options <- c("Characters",
+                        "Buzzwords")
+
 #### SHINY APP ####
 
 ui <- navbarPage(
@@ -255,7 +264,12 @@ ui <- navbarPage(
                             
                             # Place plot output here
                             
-                            plotOutput("cm_overview_season")
+                            plotOutput("cm_overview_season"),
+                            
+                            # Place disclaimer text here
+                            
+                            textOutput("cm_text_season")
+                            
                           )
                           
                         ))
@@ -340,7 +354,12 @@ ui <- navbarPage(
                             
                             # Place plot output here
                             
-                            plotOutput("character_plot")
+                            plotOutput("character_plot"),
+                            
+                            # Place plot description here
+                            
+                            textOutput("character_text")
+                            
                           )
                           
                         )),
@@ -393,7 +412,11 @@ ui <- navbarPage(
                             
                             # Place plot output here
                             
-                            plotOutput("crim_plot")
+                            plotOutput("crim_plot"),
+                            
+                            # Place plot description here
+                            
+                            textOutput("crim_text")
                             
                           )
                           
@@ -418,7 +441,29 @@ ui <- navbarPage(
                             
                             # Place plot output here
                             
-                            plotOutput("alive_plot")
+                            plotOutput("alive_plot"),
+                            
+                            # Place plot clarification here
+                            
+                            p("For clarification, criminals are classified as 
+                              'both' (i.e. alive and dead) if they were in 
+                              group and some members lived but others died."),
+                            
+                            br(),
+                            
+                            p("Criminals were classified as 'unknown' if it 
+                               was unclear at the end of the episode whether 
+                               they were alive or dead;this usually only 
+                               happened with episodes that ended on vague
+                               cliffhangers"),
+                            
+                            br(),
+                            
+                            p("Criminals were classified as caught and dead 
+                               if the team caught the criminal, but the 
+                               criminal died afterwards. This often occurred 
+                               when the criminal managed to commit suicide 
+                               in custody or was killed in custody.")
                             
                           )
                           
@@ -426,6 +471,29 @@ ui <- navbarPage(
                
              ),
              
+    ),
+    
+    tabPanel("Regression",
+             
+             sidebarLayout(
+               
+               sidebarPanel(
+                 
+                 selectInput("regression_op",
+                             "Area of Focus",
+                             choices = regression_options,
+                             selected = regression_options[1]),
+                 
+               ),
+               
+               mainPanel(
+                 
+                 gt_output("regression_table")
+                 
+               )
+               
+             )
+      
     ),
     
     tabPanel("About",
@@ -487,6 +555,24 @@ server <- function(input, output) {
     
     else if(input$general_op_season == "Criminal Types") {
       cm_crim_season
+    }
+    
+  })
+  
+  # Display disclaimer
+  
+  output$cm_text_season <- renderText({
+    
+    if(input$general_op_season == "Character Names") {
+      
+      "Disclaimer: In Seasons 1 and 2, there are suspects named Emily and
+       David, which is why these character names show up in the count before
+       the characters ever appear on the show. On the show, the writers usually
+       refrain from having suspects with the same names as the characters, so
+       once the Emily Prentiss and David Rossi became series regulars in Seasons
+       2 and 3 respectively, the chart accurately reflects the frequency of 
+       their names being spoken."
+      
     }
     
   })
@@ -569,6 +655,88 @@ server <- function(input, output) {
     
     else if(input$character_op == "David Rossi") {
       rossi
+    }
+    
+  })
+  
+  # Create conditions to describe character plots
+  
+  output$character_text <- renderText({
+    
+    if(input$character_op == "Penelope Garcia") {
+      "Penelope Garcia is the BAU's Technical Analyst who assists the BAU
+       by using her hacking and computer skills to obtain information about
+       potential suspects including arrest records, family history, and
+       current addresses among other things. If her name is rarely said in
+       an episode, this suggests that the team were not taking advantage of
+       her ability to provide them with helpful information about the suspects,
+       and perhaps that would contribute to them not being able to catch the
+       criminal."
+    }
+    
+    else if(input$character_op == "Jason Gideon") {
+      "Senior Supervisory Special Agent Jason Gideon was the BAU's best
+       criminal profiler in his time on the show. He retired in the first
+       episode of Season 3, but was still mentioned by the team after his
+       retirement."
+    }
+    
+    else if(input$character_op == "Elle Greenaway") {
+      "Supervisory Special Agent Elle Greenaway was an agent with in the BAU
+       who specialized in sexual offense crimes. She left the BAU when she
+       started developing symptoms of PTSD after being shot by an unsub in the
+       middle of Season 2, and was never mentioned again by the team after
+       Season 3."
+    }
+    
+    else if(input$character_op == "Aaron Hotchner") {
+      "Supervisory Special Agent Aaron 'Hotch' Hotchner is the BAU's Unit 
+       Chief, the leader of the team. He is very serious and focused on
+       leading the team efficiently and effectively, but is also the character
+       who's personal life with his son and wife is most prominently featured
+       on the show. In Season 5, he becomes the obsession of a serial killer, 
+       'The Reaper', who eventually goes on to murder Hotch's wife in the middle
+       of the season, leading to Hotch's name being said more often in Season 5 
+       episodes. Hotch's name is also said the most frequently over the first
+       five seasons, which is why there is likely no consistent pattern between
+       the frequency of his name and whether a criminal is caught."
+    }
+    
+    else if(input$character_op == "Jennifer Jareau") {
+      "Jennifer 'JJ' Jareau is the BAU's Communications Liaison who serves as
+       the team's point of contact with the police and media officials. Her
+       name is often said a lot as she is the individual responsible for
+       picking the cases the team pursues, introducing the team to local police,
+       and informing media strategies for the case. JJ appears in less episodes in
+       Season 4 due to the actress' maternity leave."
+    }
+    
+    else if(input$character_op == "Derek Morgan") {
+      "Supervisory Special Agent Derek Morgan is a BAU agent who specializes in
+       explosives, fixations, and obsessive behaviors. His name is said over 60
+       times in a Season 2 episode where he is falsely accused of a murder in
+       his hometown."
+    }
+    
+    else if(input$character_op == "Emily Prentiss") {
+      "Supervisory Special Agent Emily Prentiss is a BAU agent who replaced
+       Elle Greenaway in Season 2. She is fluent in multiple languages, which
+       makes her an important assest in cases where suspects or witnesses are
+       not fluent in English."
+    }
+    
+    else if(input$character_op == "Spencer Reid") {
+      "Dr. Spencer Reid is a Supervisory Special Agent in the BAU and is a 
+       certified genius with an eidetic memory. Reid is the youngest member
+       of the team and is consider to be the most popular character on the
+       show. In Season 4, he had the biggest personal story arc with 4 episodes
+       dedicated to a crime Reid witnessed as a child."
+    }
+    
+    else if(input$character_op == "David Rossi") {
+      "Senior Supervisory Special Agent David Rossi is one of the founders of
+       the BAU. He retired early from the FBI in 1997, but left retirement and
+       rejoined the team after Jason Gideon left the BAU in Season 3."
     }
     
   })
@@ -667,6 +835,73 @@ server <- function(input, output) {
     
   })
   
+  # Create conditions to display the criminal type plot descriptions
+  
+  output$crim_text <- renderText({
+    
+    if(input$crim_op == "Cop Killer") {
+      "In general, it appears that cop killers are more likely to be caught
+       than not, with no cop killers escaping in Season 2 or 3."
+    }
+    
+    else if(input$crim_op == "Copycat Killer") {
+      "In Season 1, there was only one cop killer, and they evaded capture. For
+       all other seasons, copycat killers are more likely to be caught
+       than evade capture."
+    }
+    
+    else if(input$crim_op == "Family Annihilator") {
+      "Family annihilators are more likely to be caught than escape; however
+       in Season 2, there was only one Family Annihilator, and they evaded
+       capture."
+    }
+    
+    else if(input$crim_op == "Kidnapper") {
+      "In general, kidnappers are more likely to be caught than evade capture.
+      The chance of being caught seems particulary high in Seasons 3, 4, and 5
+       whereas with Season 2, there was an almost 50-50 shot of being caught."
+    }
+    
+    else if(input$crim_op == "Proxy Killer") {
+      "In Seasons 2, 3, and 5, proxy killers are more likely to be caught. In
+       Season 1, there was only one proxy killer, and they evaded capture. In
+       Season 4, there were no proxy killers."
+    }
+    
+    else if(input$crim_op == "Robber") {
+      "Robbers are more likely to be caught in Seasons 1 and 3. There appears
+       to be a 50-50 shot of being caught in Season 5, and an almost 50-50 shot
+       of being caught in Season 4. Seasons 2 did not have any robbers."
+    }
+    
+    else if(input$crim_op == "Serial Killer") {
+      "Serial killers are more likely to be caught than evade capture with
+       Season 4 showing the most extreme version of this trend with the BAU
+       catching over 15 serial killers, only letting 2 evade capture."
+    }
+    
+    else if(input$crim_op == "Serial Rapist") {
+      "In Seasons 1-4, serial rapists are more likely to be caught than not;
+       however, in Season 5, there was a 50-50 chance of being caught."
+    }
+    
+    else if(input$crim_op == "Spree Killer") {
+      "Spree killers are more likely to be caught than evade capture across
+       all 5 seasons. Season 5 shows the most extreme version of this
+       trend with the BAU capturing 10 spree killers, only letting 1 evade
+       capture."
+    }
+    
+    else if(input$crim_op == "Stalker") {
+      "In all seasons but Season 2, stalkers are more likely to be caught
+       than evade capture. Interestingly enough, in Season 2, stalkers are
+       more likely to evade capture than be caught, which is the only time
+       we see this trend across all of the top 10 criminal types in a season
+       where there were criminals of this type to be caught and evade capture."
+    }
+    
+  })
+  
   # Create conditions to display the alive vs. dead plots where different
   # plots are shown depending on what the input is
   
@@ -690,6 +925,20 @@ server <- function(input, output) {
     
     else if(input$alive_op == "Season 5") {
       alive_5
+    }
+    
+  })
+  
+  # Create conditions to display gt table output
+  
+  output$regression_table <- render_gt({
+    
+    if(input$regression_op == "Characters") {
+      mod_table
+    }
+    
+    else if(input$regression_op == "Buzzwords") {
+      mod_table_buzz
     }
     
   })
